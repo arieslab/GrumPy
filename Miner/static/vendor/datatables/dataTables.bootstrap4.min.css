@@ -1,3 +1,10 @@
+th.action {
+    text-align: center;
+    vertical-align: middle;
+    color: red;
+}
+
+
 table.dataTable {
     clear: both;
     margin-top: 6px !important;
