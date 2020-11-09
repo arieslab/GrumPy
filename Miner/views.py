@@ -49,7 +49,8 @@ def deleteKey(request, id):
     if (str(request.method) == 'POST'):
         token = Token.objects.get(id=id)
         token.delete()
-    return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+    #return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+    return HttpResponseRedirect('/keys')
 
 
 def newMiner(request):
@@ -102,7 +103,7 @@ def startMining(request, id):
         'tokens': Token.objects.all()
     }
 
-    return render(request, 'miner/index.html', context)
+    return HttpResponseRedirect('/miners')
 
 
 def stopMining(request, id):
@@ -111,12 +112,7 @@ def stopMining(request, id):
 
         print('Stop ' + str(miner.minername))
 
-    context = {
-        'miners': Miner.objects.all(),
-        'tokens': Token.objects.all()
-    }
-
-    return render(request, 'miner/index.html', context)
+    return HttpResponseRedirect('/miners')
 
 def deleteMiner(request, id):
     if (str(request.method) == 'POST'):
@@ -128,4 +124,4 @@ def deleteMiner(request, id):
         'tokens': Token.objects.all()
     }
 
-    return render(request, 'miner/index.html', context)
+    return HttpResponseRedirect('/miners')
