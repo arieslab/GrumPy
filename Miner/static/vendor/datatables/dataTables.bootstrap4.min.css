@@ -1,7 +1,6 @@
-th.action {
+th.action, td.action {
     text-align: center;
     vertical-align: middle;
-    color: red;
 }
 
 

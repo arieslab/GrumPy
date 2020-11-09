@@ -51,5 +51,7 @@ def deleteKey(request, id):
 def newMiner(request):
     pass
 
+def teste(request):
+    return render(request, 'miner/teste.html')
 
 

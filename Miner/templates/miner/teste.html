@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %} Grumpy - Keys {% endblock %}
+
+
+{% block title_page %}Keys{% endblock %}
+
+
+{% block import_css %}
+<!-- Custom styles for this page -->
+<link href="../../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block keys_active %}active{% endblock %}
+
+
+
+{% block content %}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Register new key</h6>
+    </div>
+    <div class="card-body">
+        <form class="key">
+            <div class="form-key row">
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <label class="control-label">Name key</label>
+                    <input type="text" class="form-control" id="field_nameKey" placeholder="">
+                </div>
+                <div class="col-sm-8">
+                    <label class="control-label">Key</label>
+                    <input type="text" class="form-control" id="field_key" placeholder="">
+                </div>
+                <div class="col-sm-1">
+                    <label class="control-label"><br></label>
+                    <a onclick="addKey()" href="" class="btn btn-primary btn-user btn-block">
+                        <i class="fas fa-fw fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Registered keys</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Name key</th>
+                    <th>Key</th>
+                    <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
+
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Nº</th>
+                    <th>Name key</th>
+                    <th>Key</th>
+                    <th style="text-align: center;vertical-align: middle;">Action</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>KeyName01</td>
+                    <td>JSAKJSKA************************************************7328djksd1</td>
+                    <td style="text-align: center;vertical-align: middle;">
+                        <a href="#" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>KeyName02</td>
+                    <td>JSAKJSKA************************************************7328djksd2</td>
+                    <td style="text-align: center;vertical-align: middle;">
+                        <a href="#" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger btn-circle btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block import_script %}
+<!--IMPORT SCRIPTS -->
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/datatables-demo.js"></script>
+
+
+<script src="../../static/js/script.js"></script>
+
+{% endblock %}
