@@ -4,10 +4,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm
-from .models import Token
+from .models import Token, Miner
 
 def index(request):
-    return render(request, 'miner/index.html')
+    context = {
+        'miners': Miner.objects.all()
+    }
+
+    return render(request, 'miner/index.html', context)
 
 
 def keyList(request):
@@ -43,5 +47,8 @@ def deleteKey(request, id):
         token = Token.objects.get(id=id)
         token.delete()
     return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+
+def newMiner(request):
+    pass
 
 

@@ -56,14 +56,14 @@
 
         <!-- Nav Item - Keys -->
         <li class="nav-item {% block keys_active %}{% endblock %}">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="{% url 'key' %}">
                 <i class="fas fa-fw fa-key"></i>
-                <span>Keys</span></a>
+                <span>Token</span></a>
         </li>
 
         <!-- Nav Item - Mining -->
         <li class="nav-item {% block mining_active %}{% endblock %}">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="{% url 'miners' %}">
                 <i class="fas fa-fw fa-gem"></i>
                 <span>Mining</span></a>
         </li>
