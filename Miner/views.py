@@ -84,3 +84,4 @@ def newMiner(request):
     })
 
 
+
