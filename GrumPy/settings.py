@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'StatisticsApp',
     'bootstrap4',
     'django_celery_results',
+    'celery_progress',
 ]
 
 MIDDLEWARE = [
