@@ -52,3 +52,4 @@ def newMiner(request):
     pass
 
 
+

@@ -20,39 +20,13 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Register new token</h6>
-
-                    <label class="control-label"><br></label>
-                    <a " href="{% url 'keyform' %}" class="btn btn-primary btn-user btn-block">
-                        <i class="fas fa-fw fa-plus"></i>
-                    </a>
-
-    </div>
-
-    <!--
-    <div class="card-body">
-        <form class="key">
-
-            <div class="form-key row">
-
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <label class="control-label">Name key</label>
-                    <input type="text" class="form-control" id="field_nameKey" placeholder="">
-                </div>
-                <div class="col-sm-8">
-                    <label class="control-label">Key</label>
-                    <input type="text" class="form-control" id="field_key" placeholder="">
-                </div>
-                <div class="col-sm-1">
-                    <label class="control-label"><br></label>
-                    <a onclick="addKey()" href="" class="btn btn-primary btn-user btn-block">
-                        <i class="fas fa-fw fa-plus"></i>
-                    </a>
-                </div>
-                 </form>
-                -->
-            </div>
+        <label class="control-label"><br></label>
+        <a href="{% url 'keyform' %}" class="btn btn-primary btn-user btn-block">
+            <i class="fas fa-fw fa-plus"></i>
+        </a>
     </div>
 </div>
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -62,41 +36,40 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Token name</th>
-                    <th>Token</th>
-                    <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
-
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Token name</th>
+                        <th>Token</th>
+                        <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
+                    </tr>
                 </thead>
                 <tfoot>
-                <tr>
-                    <th>Id</th>
-                    <th>Token name</th>
-                    <th>Token</th>
-                    <th style="text-align: center;vertical-align: middle;">Action</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Token name</th>
+                        <th>Token</th>
+                        <th style="text-align: center;vertical-align: middle;">Action</th>
+                    </tr>
                 </tfoot>
                 <tbody>
-                {% for token in tokens %}
+                    {% for token in tokens %}
                     <tr>
-                    <td>{{ token.id }}</td>
-                    <td> {{ token.tokenname }}</td>
-                    <td>{{ token.token }}</td>
-                    <td style="text-align: center;vertical-align: middle;">
-                        <!-- <a href="#" class="btn btn-success btn-circle btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </a>-->
-                        <form action="{% url 'deletekey' token.id %}" method="post">
-                            {% csrf_token %}
-                            <button class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
+                        <td>{{ token.id }}</td>
+                        <td>{{ token.tokenname }}</td>
+                        <td>{{ token.token }}</td>
+                        <td style="text-align: center;vertical-align: middle;">
+                            <!-- <a href="#" class="btn btn-success btn-circle btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>-->
+                            <form action="{% url 'deletekey' token.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
