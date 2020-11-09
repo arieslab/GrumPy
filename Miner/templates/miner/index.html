@@ -22,7 +22,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Register new miner</h6>
 
                     <label class="control-label"><br></label>
-                    <a " href="#" class="btn btn-primary btn-user btn-block">
+                    <a href="{% url 'minerform' %}" class="btn btn-primary btn-user btn-block">
                         <i class="fas fa-fw fa-plus"></i>
                     </a>
 
@@ -65,8 +65,8 @@
                 <tr>
                     <th>Id</th>
                     <th>Miner name</th>
-                    <th>Status</th>
                     <th>Associated token</th>
+                    <th>Status</th>
                     <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
 
                 </tr>
@@ -75,8 +75,8 @@
                 <tr>
                     <th>Id</th>
                     <th>Miner name</th>
-                    <th>Status</th>
                     <th>Associated token</th>
+                    <th>Status</th>
                     <th style="text-align: center;vertical-align: middle;">Action</th>
                 </tr>
                 </tfoot>
@@ -84,9 +84,10 @@
                 {% for miner in miners %}
                     <tr>
                     <td>{{ miner.id }}</td>
-                    <td> {{ miner.name }}</td>
-                    <td>{{ miner.minerstatus }}</td>
+                    <td> {{ miner.minername }}</td>
                     <td>{{ miner.tokenassociated_id }}</td>
+                    <td>{{ miner.minerstatus }}</td>
+
                     <td style="text-align: center;vertical-align: middle;">
                        <a href="#" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-eye"></i>

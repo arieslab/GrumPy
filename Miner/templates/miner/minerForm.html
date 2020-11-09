@@ -11,13 +11,13 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
 
-        <h1 class="m-0 font-weight-bold text-primary"> Add new token </h1>
+        <h1 class="m-0 font-weight-bold text-primary"> Add new miner </h1>
     </div>
     {% bootstrap_messages %}
      <div class="form-key row">
 
         <div class="container">
-            <form action="{% url 'keyform' %}" method="post" class="form" autocomplete="off">
+            <form action="{% url 'minerform' %}" method="post" class="form" autocomplete="off">
                 {% csrf_token %}
                 <div class="col-sm-6">
                     {% bootstrap_form form %}
@@ -25,7 +25,7 @@
                 <div class="col-sm-3">
                     {% buttons %}
                         <button type="submit", class="btn btn-primary"> Save </button>
-                        <a class="btn btn-secondary" href="{% url 'key' %}" role="button">Back</a>
+                        <a class="btn btn-secondary" href="{% url 'index' %}" role="button">Back</a>
                     {% endbuttons %}
                 </div>
             </form>
