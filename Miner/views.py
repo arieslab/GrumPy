@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from .forms import KeyForm
-
+from .models import Token
 
 def index(request):
     return render(request, 'miner/index.html')
@@ -20,10 +20,12 @@ def newKey(request):
 
     if(str(request.method) == 'POST'):
         if(key_form.is_valid()):
-            keyName = key_form.cleaned_data['tokenname']
-            key = key_form.cleaned_data['token']
+            #token_model = Token()
 
-            print(str(keyName) + ' '+str(key))
+            keyName = key_form.cleaned_data['tokenname']
+            #token_model.key = key_form.cleaned_data['token']
+
+            key_form.save()
 
             messages.success(request, str('Key '+str(keyName)+' saved successfully!'))
             key_form = KeyForm()

@@ -1,6 +1,11 @@
 from django import forms
+from .models import Token
 
+class KeyForm(forms.ModelForm):
+    tokenname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Example: John\'s key'}))
+    token = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Example: 12345HSAHJ1243423'}))
 
-class KeyForm(forms.Form):
-    tokenname = forms.CharField(label='Token Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Example: John\'s key'}))
-    token = forms.CharField(label='Token', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Example: 12345HSAHJ1243423'}))
+    class Meta:
+        model = Token
+        fields = ['tokenname', 'token']
+
