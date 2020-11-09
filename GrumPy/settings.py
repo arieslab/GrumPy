@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Miner',
     'StatisticsApp',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

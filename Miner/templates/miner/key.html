@@ -3,7 +3,7 @@
 {% block title %} Grumpy - Keys {% endblock %}
 
 
-{% block title_page %}Keys{% endblock %}
+{% block title_page %}Token{% endblock %}
 
 
 {% block import_css %}
@@ -19,11 +19,21 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Register new key</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Register new token</h6>
+
+                    <label class="control-label"><br></label>
+                    <a " href="{% url 'keyform' %}" class="btn btn-primary btn-user btn-block">
+                        <i class="fas fa-fw fa-plus"></i>
+                    </a>
+
     </div>
+
+    <!--
     <div class="card-body">
         <form class="key">
+
             <div class="form-key row">
+
                 <div class="col-sm-3 mb-3 mb-sm-0">
                     <label class="control-label">Name key</label>
                     <input type="text" class="form-control" id="field_nameKey" placeholder="">
@@ -38,17 +48,15 @@
                         <i class="fas fa-fw fa-plus"></i>
                     </a>
                 </div>
+                 </form>
+                -->
             </div>
-        </form>
-
-
-
     </div>
 </div>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Registered keys</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Registered tokens</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -56,8 +64,8 @@
                 <thead>
                 <tr>
                     <th>Nº</th>
-                    <th>Name key</th>
-                    <th>Key</th>
+                    <th>Name token</th>
+                    <th>Token</th>
                     <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
 
                 </tr>
@@ -65,8 +73,8 @@
                 <tfoot>
                 <tr>
                     <th>Nº</th>
-                    <th>Name key</th>
-                    <th>Key</th>
+                    <th>Name token</th>
+                    <th>Token</th>
                     <th style="text-align: center;vertical-align: middle;">Action</th>
                 </tr>
                 </tfoot>
