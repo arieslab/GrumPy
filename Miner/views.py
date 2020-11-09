@@ -11,8 +11,10 @@ def index(request):
 
 
 def keyList(request):
-
-    return render(request, 'miner/key.html')
+    context = {
+        'tokens': Token.objects.all()
+    }
+    return render(request, 'miner/key.html', context)
 
 
 def newKey(request):
