@@ -85,12 +85,15 @@
                     <td> {{ token.tokenname }}</td>
                     <td>{{ token.token }}</td>
                     <td style="text-align: center;vertical-align: middle;">
-                        <a href="#" class="btn btn-success btn-circle btn-sm">
+                        <!-- <a href="#" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-eye"></i>
-                        </a>
-                        <a href="#" class="btn btn-danger btn-circle btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                        </a>-->
+                        <form action="{% url 'deletekey' token.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-circle btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

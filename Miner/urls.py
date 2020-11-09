@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('keys', views.keyList, name='key'),
-    path('keyform', views.newKey, name='keyform')
+    path('keyform', views.newKey, name='keyform'),
+    path('deletekey/<int:id>', views.deleteKey, name="deletekey"),
 ]

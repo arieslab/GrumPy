@@ -1,7 +1,7 @@
 from time import sleep
 
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm
 from .models import Token
@@ -37,3 +37,11 @@ def newKey(request):
     return render(request, 'miner/keyForm.html', {
         'form': key_form
     })
+
+def deleteKey(request, id):
+    if (str(request.method) == 'POST'):
+        token = Token.objects.get(id=id)
+        token.delete()
+    return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+
+
