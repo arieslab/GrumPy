@@ -10,5 +10,8 @@ urlpatterns = [
     path('deletekey/<int:id>', views.deleteKey, name="deletekey"),
     path('miners', views.index, name='miners'),
     path('minerform', views.newMiner, name='minerform'),
+    path('startmining/<int:id>', views.startMining, name="startmining"),
+    path('stopmining/<int:id>', views.stopMining, name="stopmining"),
+    path('deleteminer/<int:id>', views.deleteMiner, name="deleteminer"),
 
 ]
