@@ -36,7 +36,7 @@ def mining_worker(self, miner):
 
         last_issue = ISSUE_extrac.getLastIssue(repo)
 
-        if(last_issue not None):
+        if(last_issue is not None):
             if(connectionToDB.verifyCollectionInDatabase(repo) == True):
                 try:
                     first_issue = connectionToDB.verifyLastIssueInCollection(repo)
