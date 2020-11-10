@@ -79,9 +79,6 @@
                         <td>{{ token.tokenname }}</td>
                         <td>{{ token.token }}</td>
                         <td class="action">
-                            <!-- <a href="#" class="btn btn-success btn-circle btn-sm">
-                                <i class="fas fa-eye"></i>
-                            </a>-->
                             <form action="{% url 'deletekey' token.id %}" method="post">
                                 {% csrf_token %}
                                 <button class="btn btn-danger btn-circle btn-sm">
