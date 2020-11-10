@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block mining_active %}active{% endblock %}
+{% block registered_miners_active %}active{% endblock %}
 
 {% block content %}
 
@@ -69,6 +70,7 @@
                                     <br>
                                 </form>
                             </div>
+                            &ensp;
                             <div>
                                 <form action="{% url 'stopmining' miner.id %}" method="post">
                                     {% csrf_token %}
@@ -77,6 +79,7 @@
                                     </button>
                                 </form>
                             </div>
+                            &ensp;
                             <div>
                                 <form action="{% url 'deleteminer' miner.id %}" method="post">
                                     {% csrf_token %}
@@ -85,6 +88,7 @@
                                     </button>
                                 </form>
                             </div>
+                            &ensp;
                             <div >
                                 <a href="{% url 'viewprogress' miner.id %}" class="btn btn-success btn-circle btn-sm">
                                     <i class="fas fa-eye"></i>

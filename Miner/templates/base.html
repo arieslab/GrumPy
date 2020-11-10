@@ -57,42 +57,65 @@
             <li class="nav-item {% block appConfig_active %}{% endblock %}">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>App Config</span></a>
+                    <span>App Config</span>
+                </a>
             </li>
 
             <!-- Nav Item - Keys -->
-            <li class="nav-item {% block keys_active %}{% endblock %}">
-                <a class="nav-link" href="{% url 'key' %}">
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="{% url 'key' %}">-->
+<!--                    <i class="fas fa-fw fa-key"></i>-->
+<!--                    <span>Token</span>-->
+<!--                </a>-->
+<!--            </li>-->
+            <li class="nav-item {% block keys_active %}{% endblock %} ">
+                <a class="nav-link collapsed"  data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-key"></i>
-                    <span>Token</span></a>
+                    <span>Token</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item {% block register_key_active %}{% endblock %}" href="{% url 'keyform' %}">Register Token</a>
+                        <a class="collapse-item {% block registered_keys_active %}{% endblock %}" href="{% url 'key' %}">Registered Tokens</a>
+                    </div>
+                </div>
             </li>
-
-            <!-- Nav Item - Mining -->
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item {% block mining_active %}{% endblock %}">
-                <a class="nav-link" href="{% url 'miners' %}">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-gem"></i>
-                    <span>Mining</span></a>
+                    <span>Mining</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item {% block register_miner_active %}{% endblock %}" href="{% url 'minerform' %}">Register Miner</a>
+                        <a class="collapse-item {% block registered_miners_active %}{% endblock %}" href="{% url 'miners' %}">Registered Miners</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Issues -->
             <li class="nav-item {% block issues_active %}{% endblock %}">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-exclamation-circle"></i>
-                    <span>Issues</span></a>
+                    <span>Issues</span>
+                </a>
             </li>
 
             <!-- Nav Item - Statistic -->
             <li class="nav-item {% block statistic_active %}{% endblock %}">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-chart-pie"></i>
-                    <span>Statistic</span></a>
+                    <span>Statistic</span>
+                </a>
             </li>
 
             <!-- Nav Item - About -->
             <li class="nav-item {% block about_active %}{% endblock %}">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-question-circle"></i>
-                    <span>About</span></a>
+                    <span>About</span>
+                </a>
             </li>
 
             <!-- Divider -->
