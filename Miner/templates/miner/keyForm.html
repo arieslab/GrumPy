@@ -11,6 +11,14 @@
 {% block content %}
 
 
+{% if messages %}
+<ul class="messages" style ="list-style-type: none; margin-left: -35px; ">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Register new key</h6>
