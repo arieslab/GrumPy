@@ -15,7 +15,7 @@ class Miner(models.Model):
     minedamount = models.IntegerField('Mined Repo Amount')  # Mined amount
     minerstatus = models.CharField('Status', max_length=100)  # Miner task status
     minertaskid = models.CharField('Task id', max_length=100)  # Asynchronous task id
-    tokenassociated = models.ForeignKey(Token , on_delete=models.CASCADE)
+    tokenassociated = models.ForeignKey(Token, on_delete=models.CASCADE)
     repo_list = models.TextField('Repositories list')
 
     def __str__(self):

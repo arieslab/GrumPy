@@ -1,10 +1,12 @@
 from time import sleep
+from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm, MinerForm
 from .models import Token, Miner
+
 
 def index(request):
     context = {
@@ -25,16 +27,16 @@ def keyList(request):
 def newKey(request):
     key_form = KeyForm(request.POST or None)
 
-    if(str(request.method) == 'POST'):
-        if(key_form.is_valid()):
-            #token_model = Token()
+    if (str(request.method) == 'POST'):
+        if (key_form.is_valid()):
+            # token_model = Token()
 
             keyName = key_form.cleaned_data['tokenname']
-            #token_model.key = key_form.cleaned_data['token']
+            # token_model.key = key_form.cleaned_data['token']
 
             key_form.save()
 
-            messages.success(request, str('Key '+str(keyName)+' saved successfully!'))
+            messages.success(request, str('Key ' + str(keyName) + ' saved successfully!'))
             key_form = KeyForm()
         else:
             messages.error(request, 'Error in save')
@@ -43,11 +45,14 @@ def newKey(request):
         'form': key_form
     })
 
+
 def deleteKey(request, id):
     if (str(request.method) == 'POST'):
         token = Token.objects.get(id=id)
         token.delete()
-    return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+    # return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+    return HttpResponseRedirect('/keys')
+
 
 def newMiner(request):
     miner_form = MinerForm(request.POST or None)
@@ -71,8 +76,8 @@ def newMiner(request):
             miner.repo_list = repoList
             miner.save()
 
-            #print(str(token_id))
-            #miner_form.save()
+            # print(str(token_id))
+            # miner_form.save()
 
             messages.success(request, str('Minder ' + str(minerName) + ' saved successfully!'))
             miner_form = MinerForm()
@@ -83,7 +88,62 @@ def newMiner(request):
         'form': miner_form
     })
 
+
 def teste(request):
     return render(request, 'miner/teste.html')
 
 
+def startMining(request, id):
+    if (str(request.method) == 'POST'):
+        miner = Miner.objects.get(id=id)
+        # miner.minertaskid = m_worker.task_id
+
+        #m_worker = mining_worker.delay(2)
+        m_worker = test_worker.delay(miner.minername)
+
+        Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
+
+        print('Start ' + str(miner.minername))
+
+    context = {
+        'miners': Miner.objects.all(),
+        'tokens': Token.objects.all()
+    }
+
+    return HttpResponseRedirect('/miners')
+
+
+def stopMining(request, id):
+    if (str(request.method) == 'POST'):
+        miner = Miner.objects.get(id=id)
+
+        print('Stop ' + str(miner.minername))
+
+    return HttpResponseRedirect('/miners')
+
+
+def deleteMiner(request, id):
+    if (str(request.method) == 'POST'):
+        miner = Miner.objects.get(id=id)
+        miner.delete()
+
+    context = {
+        'miners': Miner.objects.all(),
+        'tokens': Token.objects.all()
+    }
+
+    return HttpResponseRedirect('/miners')
+
+
+def viewprogress(request, id):
+    print(str(id))
+
+    miner = Miner.objects.get(id = id)
+
+    context = {
+        'minerName': miner.minername,
+        'tokenAssociated': miner.tokenassociated,
+        'task_id' : miner.minertaskid
+    }
+
+    return render(request, 'miner/viewMinerProgress.html', context)
