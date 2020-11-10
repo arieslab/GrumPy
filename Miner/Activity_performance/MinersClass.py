@@ -135,10 +135,10 @@ class MinersClass:
 
         return pattern.LabelsPattern(issue_labels_list)
 
-    def getLastIssue(self, auth, repo):
+    def getLastIssue(self, repo):
         try:
             RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
-            repository = auth.get_repo(repo)
+            repository = self.authentication.get_repo(repo)
 
             for issue in repository.get_issues(state='all'):
                 return int(issue.number)
