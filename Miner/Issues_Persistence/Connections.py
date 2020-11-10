@@ -16,5 +16,6 @@ class Connections():
 
         return mongodb_client, issues_database
 
-
+    def closeConnectionToDB(self):
+        self.client_db.close()
 
