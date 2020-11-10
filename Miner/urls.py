@@ -13,5 +13,6 @@ urlpatterns = [
     path('startmining/<int:id>', views.startMining, name="startmining"),
     path('stopmining/<int:id>', views.stopMining, name="stopmining"),
     path('deleteminer/<int:id>', views.deleteMiner, name="deleteminer"),
+    path('viewprogress/<int:id>', views.viewprogress, name='viewprogress'),
 
 ]
