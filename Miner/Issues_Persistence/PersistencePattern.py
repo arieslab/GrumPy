@@ -40,3 +40,15 @@ class PersistencePattern():
         return {
             'name': labels_attributes
         }
+
+    def ReactionPattern(self, reactions_attributes):
+        return {
+            'Like', reactions_attributes[0],
+            'Deslike', reactions_attributes[1],
+            'Hooray', reactions_attributes[2],
+            'Heart', reactions_attributes[3],
+            'Confused', reactions_attributes[4],
+            'Laugh', reactions_attributes[5],
+            'Rocket', reactions_attributes[6],
+            'Eyes', reactions_attributes[7],
+        }
