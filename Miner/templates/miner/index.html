@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Grumpy - Miners {% endblock %}
 
@@ -12,7 +13,6 @@
 {% endblock %}
 
 {% block keys_active %}active{% endblock %}
-
 
 {% block content %}
 
@@ -38,7 +38,7 @@
                     <th>Id</th>
                     <th>Miner name</th>
                     <th>Associated token</th>
-                    <th>Status</th>
+                     <th>Status</th>
                     <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
 
                 </tr>
@@ -58,8 +58,7 @@
                     <td>{{ miner.id }}</td>
                     <td> {{ miner.minername }}</td>
                     <td>{{ miner.tokenassociated_id }}</td>
-                    <td>{{ miner.minerstatus }}</td>
-
+                    <td> {{ miner.minerstatus }}</td>
                     <td style="text-align: center;vertical-align: middle;">
                         <form action="{% url 'startmining' miner.id %}" method="post">
                             {% csrf_token %}
@@ -82,7 +81,7 @@
 
                         </form>
 
-                       <a href="#" class="btn btn-success btn-circle btn-sm">
+                       <a href="{% url 'viewprogress' miner.id %}" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-eye"></i>
                         </a>
                         <!-- <a class="btn btn-danger btn-circle btn-sm">
@@ -98,8 +97,10 @@
     </div>
 </div>
 
-{% endblock %}
 
+
+
+{% endblock %}
 
 {% block import_script %}
 <!--IMPORT SCRIPTS -->
@@ -114,4 +115,6 @@
 
 <script src="../../static/js/script.js"></script>
 
+
 {% endblock %}
+
