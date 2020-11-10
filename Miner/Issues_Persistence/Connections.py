@@ -19,3 +19,5 @@ class Connections():
     def closeConnectionToDB(self):
         self.client_db.close()
 
+    def saveJsonAsIssue(self, json_data, collection_name):
+        self.issues_db[str(collection_name)].insert(json_data)
