@@ -1,39 +1,39 @@
-{% load bootstrap4 %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add key</title>
-    {% bootstrap_css %}
-</head>
-<body>
-<div class="card shadow mb-4">
+{% block title %} Grumpy - Miners {% endblock %}
+
+
+{% block title_page %}Miner{% endblock %}
+
+{% block mining_active %}active{% endblock %}
+{% block register_miner_active %}active{% endblock %}
+
+{% block content %}
+
+
+{% if messages %}
+<ul class="messages" style ="list-style-type: none; margin-left: -35px; ">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="card shadow mb">
     <div class="card-header py-3">
-
-        <h1 class="m-0 font-weight-bold text-primary"> Add new miner </h1>
+        <h6 class="m-0 font-weight-bold text-primary">Register new miner</h6>
     </div>
-    {% bootstrap_messages %}
-     <div class="form-key row">
-
-        <div class="container">
-            <form action="{% url 'minerform' %}" method="post" class="form" autocomplete="off">
-                {% csrf_token %}
-                <div class="col-sm-6">
-                    {% bootstrap_form form %}
-                </div>
-                <div class="col-sm-3">
-                    {% buttons %}
-                        <button type="submit", class="btn btn-primary"> Save </button>
-                        <a class="btn btn-secondary" href="{% url 'index' %}" role="button">Back</a>
-                    {% endbuttons %}
-                </div>
-            </form>
-        </div>
-     </div>
-
-    {% bootstrap_javascript jquery="full" %}
+    <div class="card-body">
+        <form action="{% url 'minerform' %}" method="post" class="form" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <div class="col-sm-3">
+                <button type="submit", class="btn btn-primary"> Save </button>
+                <a class="btn btn-secondary" href="{% url 'index' %}" role="button">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
 
 
-</body>
-</html>
+{% endblock %}

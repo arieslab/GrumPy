@@ -53,7 +53,9 @@ def deleteKey(request, id):
     if (str(request.method) == 'POST'):
         token = Token.objects.get(id=id)
         token.delete()
+        messages.info(request, str('Token removed!'))
     # return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+
     return HttpResponseRedirect('/keys')
 
 

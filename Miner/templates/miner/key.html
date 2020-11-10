@@ -20,6 +20,14 @@
 
 {% block content %}
 
+{% if messages %}
+<ul class="messages" style ="list-style-type: none; margin-left: -35px; ">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
