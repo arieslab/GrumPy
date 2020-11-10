@@ -27,3 +27,11 @@ class PersistencePattern():
             'Event': event_attributes[3],
             'Label': event_attributes[4]
         }
+
+    def CommentsPattern(self, comments_attributes):
+        return {
+            'Author': comments_attributes[0],
+            'Date': comments_attributes[1],
+            'Comments': comments_attributes[2],
+            'Reactions': comments_attributes[3],
+        }
