@@ -54,9 +54,10 @@ class MinersClass():
             for comment in self.issue.get_comments():
                 RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 pattern = PersistencePattern()
+                
+                RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
+                reactions = self.reactions_mining(comment)
 
-                ## Adding method
-                reactions = ''
                 if(comment.user is None):
                     comment_formatted = pattern.CommentsPattern(['-', comment.created_at, comment.body, reactions])
                 else:
