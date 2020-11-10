@@ -35,3 +35,8 @@ class PersistencePattern():
             'Comments': comments_attributes[2],
             'Reactions': comments_attributes[3],
         }
+
+    def LabelsPattern(self, labels_attributes):
+        return {
+            'name': labels_attributes
+        }
