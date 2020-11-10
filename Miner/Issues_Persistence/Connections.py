@@ -37,3 +37,13 @@ class Connections:
             return True
 
         return False
+
+    def verifyLastIssueInCollection(self, collection_name):
+        repo_colletion = self.issues_db[collection_name]
+        issue = 0
+
+        for i in repo_colletion.find({}):
+            issue = i
+
+        return issue['Id']
+
