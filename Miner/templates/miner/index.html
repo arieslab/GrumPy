@@ -12,7 +12,7 @@
 <link href="../../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 {% endblock %}
 
-{% block keys_active %}active{% endblock %}
+{% block mining_active %}active{% endblock %}
 
 {% block content %}
 
@@ -37,10 +37,9 @@
                 <tr>
                     <th>Id</th>
                     <th>Miner name</th>
-                    <th>Associated token</th>
-                     <th>Status</th>
-                    <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">Action</th>
-
+                    <th>Associated token</th>           
+                    <th>Status</th>
+                    <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action">Action</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -49,7 +48,7 @@
                     <th>Miner name</th>
                     <th>Associated token</th>
                     <th>Status</th>
-                    <th style="text-align: center;vertical-align: middle;">Action</th>
+                    <th class="action th sorting_desc_disabled th sorting_asc_disabled">Action</th>
                 </tr>
                 </tfoot>
                 <tbody>
@@ -78,16 +77,10 @@
                             <button class="btn btn-danger btn-circle btn-sm">
                                 <i class="fas fa-trash"></i>
                             </button>
-
                         </form>
-
                        <a href="{% url 'viewprogress' miner.id %}" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-eye"></i>
-                        </a>
-                        <!-- <a class="btn btn-danger btn-circle btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        -->
+                      </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -96,10 +89,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 {% endblock %}
 
 {% block import_script %}
