@@ -18,3 +18,12 @@ class PersistencePattern():
             'Issue_Labels' : issue_attributes[11],
             'Issue_Type': issue_attributes[12]
         }
+
+    def eventPattern(self, event_attributes):
+        return {
+            'Issue': event_attributes[0],
+            'Author': event_attributes[1],
+            'Created_at': event_attributes[2],
+            'Event': event_attributes[3],
+            'Label': event_attributes[4]
+        }
