@@ -21,3 +21,6 @@ class Connections():
 
     def saveJsonAsIssue(self, json_data, collection_name):
         self.issues_db[str(collection_name)].insert(json_data)
+
+    def deleteIssue(self, number, collection_name):
+        self.issues_db[str(collection_name)].delete_one({'Id': number})
