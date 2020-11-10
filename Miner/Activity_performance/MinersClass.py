@@ -12,7 +12,7 @@ class MinersClass():
         self.time_to_wait = time_to_wait
         self.num_requests = set_num_requests
 
-    def event_mining(self, issue, authentication):
+    def event_mining(self, issue):
         issue_events_list = []
         RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
 
@@ -44,3 +44,30 @@ class MinersClass():
                 raise SystemError('Request limit achieved in event mining ')
 
         return issue_events_list
+
+    def comments_mining(self, issue):
+        issue_comments_list = []
+        RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
+
+        try:
+            for comment in issue.get_comments():
+                RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
+                pattern = PersistencePattern()
+
+                ## Adding method
+                reactions = ''
+                if(comment.user is None):
+                    comment_formatted = pattern.CommentsPattern(['-', comment.created_at, comment.body, reactions])
+                else:
+                    comment_formatted = pattern.CommentsPattern([comment.user.login, comment.created_at, comment.body, reactions])
+
+                issue_comments_list(comment_formatted)
+
+
+        except requests.exceptions.ReadTimeout as aes:
+            raise SystemError('ReadTimeout error in event mining')
+        except requests.exceptions.ConnectionError as aes:
+            raise SystemError('Connection error in event mining')
+        except GithubException as d:
+            if (d.status == 403):
+                raise SystemError('Request limit achieved in event mining ')
