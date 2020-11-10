@@ -1,4 +1,5 @@
 from time import sleep
+from .miningTask import mining_worker
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -49,7 +50,7 @@ def deleteKey(request, id):
     if (str(request.method) == 'POST'):
         token = Token.objects.get(id=id)
         token.delete()
-    #return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
+    # return render(request, 'miner/key.html', {'tokens': Token.objects.all()})
     return HttpResponseRedirect('/keys')
 
 
@@ -95,6 +96,11 @@ def teste(request):
 def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
+        # miner.minertaskid = m_worker.task_id
+
+        m_worker = mining_worker.delay(2)
+
+        Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
 
         print('Start ' + str(miner.minername))
 
@@ -114,6 +120,7 @@ def stopMining(request, id):
 
     return HttpResponseRedirect('/miners')
 
+
 def deleteMiner(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
@@ -125,3 +132,17 @@ def deleteMiner(request, id):
     }
 
     return HttpResponseRedirect('/miners')
+
+
+def viewprogress(request, id):
+    print(str(id))
+
+    miner = Miner.objects.get(id = id)
+
+    context = {
+        'minerName': miner.minername,
+        'tokenAssociated': miner.tokenassociated,
+        'task_id' : miner.minertaskid
+    }
+
+    return render(request, 'miner/viewMinerProgress.html', context)
