@@ -30,3 +30,9 @@ class Connections():
             return True
 
         return False
+
+    def verifyCollectionInDatabase(self, collection_name):
+        if (collection_name in self.issues_db.list_collection_names()):
+            return True
+
+        return False
