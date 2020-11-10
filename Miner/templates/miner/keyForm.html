@@ -19,7 +19,7 @@
 </ul>
 {% endif %}
 
-<div class="card shadow mb-4">
+<div class="card shadow mb">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Register new key</h6>
     </div>
@@ -28,17 +28,17 @@
             {% csrf_token %}
             <div class="form-key row">
                 <input type="hidden" name="csrfmiddlewaretoken" value="WWsMxu7Y8cMlpR4P4s50myUqAM2jbPD2URGF49OiULbbPGCqKN8ky2g61uTULaw5">
-                <div class="col-sm-3 mb-3 mb-sm-0">
+                <div class="col-4" >
                     <label class="control-label">Name key</label>
                     <input type="text" name="tokenname" placeholder="Example: John's key" required="" id="id_tokenname" class="form-control">
                 </div>
-                <div class="col-sm-8">
+                <div class="col-6" >
                     <label class="control-label">Key</label>
                     <input type="text" name="token" placeholder="Example: 12345HSAHJ1243423" required="" id="id_token" class="form-control">
                 </div>
-                <div class="col-sm-1">
-                    <div class="col-sm-1">
-                        <label class="control-label"><br></label>
+                <div class="col-2">
+                    <label class="control-label"><br></label>
+                    <div class="row">
                         <input type="submit" class="btn btn-primary" value="Add Token">
                     </div>
                 </div>
