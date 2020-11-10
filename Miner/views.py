@@ -1,5 +1,5 @@
 from time import sleep
-from .miningTask import mining_worker
+from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -98,7 +98,8 @@ def startMining(request, id):
         miner = Miner.objects.get(id=id)
         # miner.minertaskid = m_worker.task_id
 
-        m_worker = mining_worker.delay(2)
+        #m_worker = mining_worker.delay(2)
+        m_worker = test_worker.delay(miner.minername)
 
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
 
