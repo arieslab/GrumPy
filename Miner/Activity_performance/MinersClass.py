@@ -134,3 +134,14 @@ class MinersClass:
                 raise SystemError('Request limit achieved in event mining ')
 
         return pattern.LabelsPattern(issue_labels_list)
+
+    def getLastIssue(self, auth, repo):
+        try:
+            RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
+            repository = auth.get_repo(repo)
+
+            for issue in repository.get_issues(state='all'):
+                return int(issue.number)
+        except GithubException as d:
+            if(d.status == 404):
+                raise SystemError('Error 404')
