@@ -24,3 +24,9 @@ class Connections():
 
     def deleteIssue(self, number, collection_name):
         self.issues_db[str(collection_name)].delete_one({'Id': number})
+
+    def verifyMiningFinishing(self, first_issue, collection_name):
+        if (self.issues_db[str(collection_name)].find_one({'Id': first_issue})):
+            return True
+
+        return False
