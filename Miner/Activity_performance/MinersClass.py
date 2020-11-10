@@ -6,8 +6,9 @@ from Miner.Activity_performance import RequestVerificationClass
 from Miner.Issues_Persistence.PersistencePattern import PersistencePattern
 
 class MinersClass():
-    def __init__(self, issue, authentication, time_to_wait, set_num_requests):
+    def __init__(self, issue, authentication, time_to_wait, set_num_requests, repository):
         self.issue = issue
+        self.repository = repository
         self.authentication = authentication
         self.time_to_wait = time_to_wait
         self.num_requests = set_num_requests
@@ -109,3 +110,21 @@ class MinersClass():
                                         reactions_list['rocket'],
                                         reactions_list['eyes']
                                        ])
+
+    def repo_labels_mining(self, component):
+        issue_labels_list = []
+        RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
+        pattern = PersistencePattern()
+
+        try:
+            for label in component.get_labels():
+                issue_labels_list.append(label)
+        except requests.exceptions.ReadTimeout as aes:
+            raise SystemError('ReadTimeout error in event mining')
+        except requests.exceptions.ConnectionError as aes:
+            raise SystemError('Connection error in event mining')
+        except GithubException as d:
+            if (d.status == 403):
+                raise SystemError('Request limit achieved in event mining ')
+
+        return pattern.LabelsPattern(issue_labels_list)
