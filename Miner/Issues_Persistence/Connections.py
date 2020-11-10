@@ -4,7 +4,8 @@ PLACE = 'localhost'
 PORT = 27017
 DB_NAME = 'GithubIssuesDB'
 
-class Connections():
+
+class Connections:
     def __init__(self):
         self.client, self.issues_db = self.openConnectionToDB()
 

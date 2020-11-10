@@ -5,7 +5,8 @@ from github import Github, GithubException
 from Miner.Activity_performance import RequestVerificationClass
 from Miner.Issues_Persistence.PersistencePattern import PersistencePattern
 
-class MinersClass():
+
+class MinersClass:
     def __init__(self, issue, authentication, time_to_wait, set_num_requests, repository):
         self.issue = issue
         self.repository = repository
@@ -24,17 +25,20 @@ class MinersClass():
                 e = ''
                 pattern = PersistencePattern()
 
-                if(event.actor is None):
+                if (event.actor is None):
                     if (event.label is None):
                         event_formatted = pattern.eventPattern([issue.number, '-', event.created_at, event.event, '-'])
                     else:
-                        event_formatted = pattern.eventPattern([issue.number, '-', event.created_at, event.event, event.label.name])
+                        event_formatted = pattern.eventPattern(
+                            [issue.number, '-', event.created_at, event.event, event.label.name])
 
                 else:
-                    if(event.label is None):
-                        event_formatted = pattern.eventPattern([issue.number, event.actor.login, event.created_at, event.event, '-'])
+                    if (event.label is None):
+                        event_formatted = pattern.eventPattern(
+                            [issue.number, event.actor.login, event.created_at, event.event, '-'])
                     else:
-                        event_formatted = pattern.eventPattern([issue.number, event.actor.login, event.created_at, event.event, event.label.name])
+                        event_formatted = pattern.eventPattern(
+                            [issue.number, event.actor.login, event.created_at, event.event, event.label.name])
                 issue_events_list.append(event_formatted)
         except requests.exceptions.ReadTimeout as aes:
             raise SystemError('ReadTimeout error in event mining')
@@ -54,14 +58,15 @@ class MinersClass():
             for comment in self.issue.get_comments():
                 RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 pattern = PersistencePattern()
-                
+
                 RequestVerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 reactions = self.reactions_mining(comment)
 
-                if(comment.user is None):
+                if (comment.user is None):
                     comment_formatted = pattern.CommentsPattern(['-', comment.created_at, comment.body, reactions])
                 else:
-                    comment_formatted = pattern.CommentsPattern([comment.user.login, comment.created_at, comment.body, reactions])
+                    comment_formatted = pattern.CommentsPattern(
+                        [comment.user.login, comment.created_at, comment.body, reactions])
 
                 issue_comments_list.append(comment_formatted)
 
@@ -110,7 +115,7 @@ class MinersClass():
                                         reactions_list['laugh'],
                                         reactions_list['rocket'],
                                         reactions_list['eyes']
-                                       ])
+                                        ])
 
     def repo_labels_mining(self, component):
         issue_labels_list = []

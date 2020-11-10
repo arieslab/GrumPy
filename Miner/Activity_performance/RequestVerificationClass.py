@@ -2,7 +2,7 @@ from datetime import time
 import requests
 
 
-class RequestVerificationClass():
+class RequestVerificationClass:
     def __init__(self, authentication, limit, time_to_wait):
         self.authentication = authentication
         self.limit = limit
