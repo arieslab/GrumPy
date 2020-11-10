@@ -5,6 +5,8 @@ from requests import exceptions
 from github import Github, GithubException
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
+from Miner.Activity_performance import MinersClass, RequestVerificationClass
+from Miner.Issues_Persistence.Connections import Connections
 
 @shared_task(bind=True)
 def test_worker(self, NAME):
@@ -21,5 +23,29 @@ def test_worker(self, NAME):
     return str(NAME) + 'Testing task - Task finished'
 
 @shared_task(bind=True)
-def mining_worker(self):
-    pass
+def mining_worker(self, miner):
+
+    authentication = Github(miner.tokenassociated.tokenname)
+    connectionToDB = Connections()
+    connectionToDB.openConnectionToDB()
+
+    for repo in miner.repo_list:
+        first_issue = last_issue = 0
+
+        ISSUE_extrac = MinersClass(authentication, 1800, 5)
+
+        last_issue = ISSUE_extrac.getLastIssue(repo)
+
+        if(last_issue not None):
+            if(connectionToDB.verifyCollectionInDatabase(repo) == True):
+                try:
+                    first_issue = connectionToDB.verifyLastIssueInCollection(repo)
+                except:
+                    raise SystemError('Error finding the first repo issue')
+
+
+
+    connectionToDB.closeConnectionToDB()
+
+
+
