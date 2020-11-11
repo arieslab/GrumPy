@@ -6,7 +6,7 @@ from celery.result import AsyncResult
 from celery.task.control import revoke
 from django.views.decorators.csrf import csrf_exempt
 
-from .miningTask import mining_worker, test_worker, cancelTask
+from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
