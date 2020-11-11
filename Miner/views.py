@@ -111,9 +111,10 @@ def dashboard(request):
 def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
-        m_worker = test_worker.delay(miner.minername)
+        m_worker = test_worker.delay(miner.minername, id)
         celery_tasks.append(m_worker)
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
+        Miner.objects.filter(pk=id).update(minerstatus='Mining...')
 
         print('Start ' + str(miner.minername))
 
@@ -134,9 +135,9 @@ def stopMining(request, id):
             if(t.task_id == miner.minertaskid):
                 task = t
                 task.abort()
+                celery_tasks.remove(task)
 
-        celery_tasks.remove(task)
-
+        Miner.objects.filter(pk=id).update(minerstatus='Task aborted')
         print('Stop ' + str(miner.minername))
 
     return HttpResponseRedirect('/miners')
