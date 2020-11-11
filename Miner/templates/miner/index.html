@@ -65,11 +65,12 @@
                             <div >
                                 <form action="{% url 'startmining' miner.id %}" method="post">
                                     {% csrf_token %}
-                                    <button class="btn btn-primary btn-circle btn-sm">
+                                    <button class="btn btn-primary btn-circle btn-sm" >
                                         <i class="fa fa-play"></i>
                                     </button>
                                     <br>
                                 </form>
+
                             </div>
                             &ensp;
                             <div>
