@@ -11,9 +11,11 @@ from Miner.Activity_performance import MinersClass, RequestVerificationClass
 from Miner.Issues_Persistence.Connections import Connections
 from celery.contrib.abortable import AbortableTask
 
+from Miner.models import Miner
+
 
 @shared_task(bind=True, base=AbortableTask)
-def test_worker(self, NAME):
+def test_worker(self, NAME, miner_id):
     progress_recorder = ProgressRecorder(self)
     i = 0
     total = 50
@@ -25,6 +27,7 @@ def test_worker(self, NAME):
         sleep(3)
         i += 1
 
+    Miner.objects.filter(pk=miner_id).update(minerstatus='Finished')
     return str(NAME) + 'Testing task - Task finished'
 
 @shared_task(bind=True)
