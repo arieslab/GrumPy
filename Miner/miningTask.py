@@ -109,7 +109,7 @@ def mining_worker(self, miner_id):
 
                                 print(str(issue_formatted))
 
-                                #connectionToDB.saveJsonAsIssue(issue_formatted, repo)
+                                connectionToDB.saveJsonAsIssue(issue_formatted, repo)
 
                         first_issue += 1
 
