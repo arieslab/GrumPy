@@ -97,6 +97,8 @@ def newMiner(request):
 def teste(request):
     return render(request, 'miner/teste.html')
 
+def dashboard(request):
+    return render(request, 'miner/dashboard.html')
 
 def startMining(request, id):
     if (str(request.method) == 'POST'):
