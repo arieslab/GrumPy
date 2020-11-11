@@ -1,8 +1,12 @@
 from time import sleep
 
+from celery import app
+from celery.contrib.pytest import celery_app
+from celery.result import AsyncResult
+from celery.task.control import revoke
 from django.views.decorators.csrf import csrf_exempt
 
-from .miningTask import mining_worker, test_worker
+from .miningTask import mining_worker, test_worker, cancelTask
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -10,6 +14,7 @@ from django.contrib import messages
 from .forms import KeyForm, MinerForm
 from .models import Token, Miner
 
+celery_tasks = []
 
 def index(request):
     context = {
@@ -25,6 +30,7 @@ def keyList(request):
         'tokens': Token.objects.all()
     }
     return render(request, 'miner/key.html', context)
+
 
 @csrf_exempt
 def newKey(request):
@@ -97,26 +103,23 @@ def newMiner(request):
 def teste(request):
     return render(request, 'miner/teste.html')
 
+
 def dashboard(request):
     return render(request, 'miner/dashboard.html')
+
 
 def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
-        # miner.minertaskid = m_worker.task_id
-
-        #m_worker = mining_worker.delay(2)
-        #m_worker = mining_worker.delay(miner)
-
         m_worker = test_worker.delay(miner.minername)
-
+        celery_tasks.append(m_worker)
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
 
         print('Start ' + str(miner.minername))
 
     context = {
         'miners': Miner.objects.all(),
-        'tokens': Token.objects.all()
+        'tokens': Token.objects.all(),
     }
 
     return HttpResponseRedirect('/miners')
@@ -125,6 +128,14 @@ def startMining(request, id):
 def stopMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
+
+        print(str(miner.minertaskid))
+        for t in celery_tasks:
+            if(t.task_id == miner.minertaskid):
+                task = t
+                task.abort()
+
+        celery_tasks.remove(task)
 
         print('Stop ' + str(miner.minername))
 
@@ -147,12 +158,12 @@ def deleteMiner(request, id):
 def viewprogress(request, id):
     print(str(id))
 
-    miner = Miner.objects.get(id = id)
+    miner = Miner.objects.get(id=id)
 
     context = {
         'minerName': miner.minername,
         'tokenAssociated': miner.tokenassociated,
-        'task_id' : miner.minertaskid
+        'task_id': miner.minertaskid
     }
 
     return render(request, 'miner/viewMinerProgress.html', context)
