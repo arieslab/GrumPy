@@ -18,7 +18,7 @@ class Connections:
         return mongodb_client, issues_database
 
     def closeConnectionToDB(self):
-        self.client_db.close()
+        self.client.close()
 
     def saveJsonAsIssue(self, json_data, collection_name):
         self.issues_db[str(collection_name)].insert(json_data)
@@ -46,4 +46,7 @@ class Connections:
             issue = i
 
         return issue['Id']
+
+    def findIssue(self, number, repo):
+        return self.issues_db[repo].find_one({'Id': number})
 
