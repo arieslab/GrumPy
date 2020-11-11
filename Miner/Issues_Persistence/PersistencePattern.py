@@ -1,39 +1,39 @@
 class PersistencePattern:
-    def __init__(self, mode):
-        self.mode = mode
+    def __init__(self):
+        pass
 
-    def issuePattern(self, issue_attributes):
+    def issuePattern(self, repo_name, id, author, created_date, status, title, body, repo_labels, reactions, events,
+                     comments, issue_labels):
         return {
-            'Repository_Name' : issue_attributes[0],
-            'Id' : issue_attributes[1],
-            'Author' : issue_attributes[2],
-            'Created_at' : issue_attributes[3],
-            'Status' : issue_attributes[4],
-            'Title' : issue_attributes[5],
-            'Body' : issue_attributes[6],
-            'Repository_Labels': issue_attributes[7],
-            'Reactions': issue_attributes[8],
-            'Events': issue_attributes[9],
-            'Comments' : issue_attributes[10],
-            'Issue_Labels' : issue_attributes[11],
-            'Issue_Type': issue_attributes[12]
+            'Repository_Name': repo_name,
+            'Id': id,
+            'Author': author,
+            'Created_at': created_date,
+            'Status': status,
+            'Title': title,
+            'Body': body,
+            'Repository_Labels': repo_labels,
+            'Reactions': reactions,
+            'Events': events,
+            'Comments': comments,
+            'Issue_Labels': issue_labels
         }
 
-    def eventPattern(self, event_attributes):
+    def eventPattern(self, issue, author, created_at, event, label):
         return {
-            'Issue': event_attributes[0],
-            'Author': event_attributes[1],
-            'Created_at': event_attributes[2],
-            'Event': event_attributes[3],
-            'Label': event_attributes[4]
+            'Issue': issue,
+            'Author': author,
+            'Created_at': created_at,
+            'Event': event,
+            'Label': label
         }
 
-    def CommentsPattern(self, comments_attributes):
+    def CommentsPattern(self, author, date, comments, reactions):
         return {
-            'Author': comments_attributes[0],
-            'Date': comments_attributes[1],
-            'Comments': comments_attributes[2],
-            'Reactions': comments_attributes[3],
+            'Author': author,
+            'Date': date,
+            'Comments': comments,
+            'Reactions': reactions
         }
 
     def LabelsPattern(self, labels_attributes):
@@ -41,14 +41,14 @@ class PersistencePattern:
             'name': labels_attributes
         }
 
-    def ReactionPattern(self, reactions_attributes):
+    def ReactionPattern(self, reaction_list):
         return {
-            'Like', reactions_attributes[0],
-            'Deslike', reactions_attributes[1],
-            'Hooray', reactions_attributes[2],
-            'Heart', reactions_attributes[3],
-            'Confused', reactions_attributes[4],
-            'Laugh', reactions_attributes[5],
-            'Rocket', reactions_attributes[6],
-            'Eyes', reactions_attributes[7],
+            'Like'      :   reaction_list['+1'],
+            'Heart'     :   reaction_list['heart'],
+            'Hooray'    :   reaction_list['hooray'],
+            'Confused'  :   reaction_list['confused'],
+            'Deslike'   :   reaction_list['-1'],
+            'Laugh'     :   reaction_list['laugh'],
+            'Rocket'    :   reaction_list['rocket'],
+            'Eyes'      :   reaction_list['eyes']
         }
