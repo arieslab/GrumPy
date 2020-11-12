@@ -28,45 +28,144 @@
 </ul>
 {% endif %}
 
-<canvas id="myChart" ></canvas>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Open issues e Closed issues</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="openIssuesClosedIssues" ></canvas>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Number of comments: Open issues and closed issues</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="commentsOpenIssuesClosedIssues" ></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Reactions of Open Issues</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="reactionsOpenIssues" ></canvas>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Reactions of Open Issues</h6>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
+
+    var ctx1 = document.getElementById('openIssuesClosedIssues').getContext('2d');
+    var openIssuesClosedIssues = new Chart(ctx1, {
+        type: 'pie',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                data: [30, 70],
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
                     'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
+
                     'rgba(255, 206, 86, 1)',
                     'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
                 ],
                 borderWidth: 1
             }]
         },
         options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+
+        }
+    });
+
+    var ctx2 = document.getElementById('commentsOpenIssuesClosedIssues').getContext('2d');
+    var commentsOpenIssuesClosedIssues = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Open', 'Closed'],
+            datasets: [{
+                label: '# of Votes',
+                data: [50, 50],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+
+        }
+    });
+
+
+    var ctx3 = document.getElementById('reactionsOpenIssues').getContext('2d');
+    var reactionsOpenIssues = new Chart(ctx3, {
+        type: 'radar',
+        data: {
+            labels: ['A', 'B', 'C', 'D', 'E', 'F'],
+            datasets: [{
+                data: [70,50, 80, 10, 60, 100],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                ],
+            }]
+        },
+        options: {
+            scale: {
+                angleLines: {
+                    display: false
+                },
+                ticks: {
+                    suggestedMin: 50,
+                    suggestedMax: 100
+                }
             }
         }
     });
+
+
+
 </script>
 
 {% endblock %}
@@ -75,15 +174,13 @@
 <!--IMPORT SCRIPTS -->
 
 {% bootstrap_javascript jquery="full" %}
+
 <!-- Page level plugins -->
-<script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="../../static/js/demo/datatables-demo.js"></script>
-
-
-<script src="../../static/js/script.js"></script>
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
 
 
 {% endblock %}
