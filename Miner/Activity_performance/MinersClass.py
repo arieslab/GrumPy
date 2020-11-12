@@ -77,6 +77,8 @@ class MinerClass:
             if (d.status == 403):
                 raise SystemError('Request limit achieved in event mining ')
 
+        return issue_comments_list
+
     def reactions_mining(self, element):
         issue_reactions_list = []
         VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
@@ -93,7 +95,7 @@ class MinerClass:
         try:
             for reaction in element.get_reactions():
                 VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
-                TheReaction = reaction.content()
+                TheReaction = reaction.content
 
                 reactions_list[str(TheReaction)] += 1
 
