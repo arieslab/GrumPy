@@ -27,7 +27,8 @@
     {% endfor %}
 </ul>
 {% endif %}
-    <input id="valorOpen" type="hidden" name="listaDeValores"  value="{{test.lista}}"> </input>
+    <input id="valorOpenClosed" type="hidden" name="listaDeValores"  value="{{test.lista}}"> </input>
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
@@ -82,8 +83,6 @@
         </div>
     </div>
 
-
-
 <script>
 
     var ctx1 = document.getElementById('openIssuesClosedIssues').getContext('2d');
@@ -111,6 +110,8 @@
         }
     });
 
+    var valorOpenClosed = document.getElementById('valorOpenClosed').getAttribute("value").replace("[","").replace("]","").split(", ");
+
     var ctx2 = document.getElementById('commentsOpenIssuesClosedIssues').getContext('2d');
     var commentsOpenIssuesClosedIssues = new Chart(ctx2, {
         type: 'pie',
@@ -118,7 +119,7 @@
             labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [50, 50],
+                data: [parseInt(valorOpenClosed[0]), parseInt(valorOpenClosed[1])],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
