@@ -4,7 +4,7 @@ from celery import app
 from celery.contrib.pytest import celery_app
 from celery.result import AsyncResult
 from django.views.decorators.csrf import csrf_exempt
-
+from Miner.Issue_Management.Models.Model import RepositoryClass
 from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
@@ -12,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm, MinerForm
 from .models import Token, Miner
+from Miner.Issues_Persistence.Connections import Connections
 
 celery_tasks = []
 
@@ -110,7 +111,14 @@ class Test:
 
 
 def dashboard(request):
-    testeLista = Test([30, 70])
+    connection_instance = Connections()
+
+    openeIssues = connection_instance.getAmountOfIssuesInDBByStatus('open')
+    closedIssues = connection_instance.getAmountOfIssuesInDBByStatus('closed')
+
+    connection_instance.closeConnectionToDB()
+
+    testeLista = Test([openeIssues, closedIssues])
 
     context = {
         'test': testeLista

@@ -84,6 +84,7 @@
     </div>
 
 <script>
+    var valorOpenClosed = document.getElementById('valorOpenClosed').getAttribute("value").replace("[","").replace("]","").split(", ");
 
     var ctx1 = document.getElementById('openIssuesClosedIssues').getContext('2d');
     var openIssuesClosedIssues = new Chart(ctx1, {
@@ -92,7 +93,7 @@
             labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [30, 70],
+                data: [parseInt(valorOpenClosed[0]), parseInt(valorOpenClosed[1])],
                 backgroundColor: [
                     'rgba(255, 206, 86, 0.2)',
                     'rgba(75, 192, 192, 0.2)',
@@ -110,7 +111,6 @@
         }
     });
 
-    var valorOpenClosed = document.getElementById('valorOpenClosed').getAttribute("value").replace("[","").replace("]","").split(", ");
 
     var ctx2 = document.getElementById('commentsOpenIssuesClosedIssues').getContext('2d');
     var commentsOpenIssuesClosedIssues = new Chart(ctx2, {
@@ -119,7 +119,7 @@
             labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [parseInt(valorOpenClosed[0]), parseInt(valorOpenClosed[1])],
+                data: [30, 70] ,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
