@@ -65,6 +65,11 @@ class Connections:
 
         return amount_of_issues
 
+    def getAmountOfRepos(self):
+        list_of_col = len(self.issues_db.list_collection_names())
+
+        return list_of_col
+
 
 
 
