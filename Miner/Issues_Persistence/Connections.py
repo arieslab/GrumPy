@@ -50,3 +50,6 @@ class Connections:
     def findIssue(self, number, repo):
         return self.issues_db[repo].find_one({'Id': number})
 
+    def getAmountInCollection(self, name_collection):
+        return self.issues_db[name_collection].count()
+    
