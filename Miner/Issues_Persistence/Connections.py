@@ -52,4 +52,6 @@ class Connections:
 
     def getAmountInCollection(self, name_collection):
         return self.issues_db[name_collection].count()
-    
+
+    def getIssuesByStatus(self, name_collection, status):
+        return self.issues_db[name_collection].find({'Status': status})
