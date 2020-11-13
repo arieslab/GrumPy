@@ -3,7 +3,6 @@ from time import sleep
 from celery import app
 from celery.contrib.pytest import celery_app
 from celery.result import AsyncResult
-from celery.task.control import revoke
 from django.views.decorators.csrf import csrf_exempt
 
 from .miningTask import mining_worker, test_worker
@@ -15,6 +14,7 @@ from .forms import KeyForm, MinerForm
 from .models import Token, Miner
 
 celery_tasks = []
+
 
 def index(request):
     context = {
@@ -104,14 +104,26 @@ def teste(request):
     return render(request, 'miner/teste.html')
 
 
+class Test:
+    def __init__(self, lista):
+        self.lista = lista
+
+
 def dashboard(request):
-    return render(request, 'miner/dashboard.html')
+    testeLista = Test([30, 70])
+
+    context = {
+        'test': testeLista
+    }
+
+    return render(request, 'miner/dashboard.html', context)
 
 
 def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
-        m_worker = test_worker.delay(miner.minername, id)
+        # m_worker = test_worker.delay(miner.minername, id)
+        #m_worker = mining_worker.delay(id)
         celery_tasks.append(m_worker)
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
         Miner.objects.filter(pk=id).update(minerstatus='Mining...')
@@ -132,7 +144,7 @@ def stopMining(request, id):
 
         print(str(miner.minertaskid))
         for t in celery_tasks:
-            if(t.task_id == miner.minertaskid):
+            if (t.task_id == miner.minertaskid):
                 task = t
                 task.abort()
                 celery_tasks.remove(task)
