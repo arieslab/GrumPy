@@ -55,3 +55,16 @@ class Connections:
 
     def getIssuesByStatus(self, name_collection, status):
         return self.issues_db[name_collection].find({'Status': status})
+
+    def getAmountOfIssuesInDBByStatus(self, status):
+        list_of_col = self.issues_db.list_collection_names()
+        amount_of_issues = 0
+
+        for collection in list_of_col:
+            amount_of_issues += self.issues_db[collection].find({'Status': status}).count()
+
+        return amount_of_issues
+
+
+
+
