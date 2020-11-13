@@ -113,15 +113,22 @@ class Test:
 def dashboard(request):
     connection_instance = Connections()
 
-    openeIssues = connection_instance.getAmountOfIssuesInDBByStatus('open')
+    openedIssues = connection_instance.getAmountOfIssuesInDBByStatus('open')
     closedIssues = connection_instance.getAmountOfIssuesInDBByStatus('closed')
+    amountOfRepos = connection_instance.getAmountOfRepos()
+
+    amountOfIssues = openedIssues + closedIssues
+
 
     connection_instance.closeConnectionToDB()
 
-    testeLista = Test([openeIssues, closedIssues])
+    testeLista = Test([openedIssues, closedIssues])
+
 
     context = {
-        'test': testeLista
+        'test': testeLista,
+        'amountOfRepos': amountOfRepos,
+        'amountOfIssues': amountOfIssues
     }
 
     return render(request, 'miner/dashboard.html', context)
