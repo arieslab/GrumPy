@@ -131,7 +131,7 @@ def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
         # m_worker = test_worker.delay(miner.minername, id)
-        #m_worker = mining_worker.delay(id)
+        m_worker = mining_worker.delay(id)
         celery_tasks.append(m_worker)
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
         Miner.objects.filter(pk=id).update(minerstatus='Mining...')
