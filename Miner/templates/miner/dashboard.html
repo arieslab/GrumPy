@@ -25,8 +25,11 @@
     <input id="numberIssuesValues" type="hidden" name="numberIssues"  value="{{amountOfIssues}}">
     <input id="numberCommentsValues" type="hidden" name="numberComments"  value="-">
 
-    <input id="valueOpenClosedIssues" type="hidden" name="listaDeValores"  value="{{test.lista}}">
-    <input id="commentsOpenClosedIssues" type="hidden" name="commentsIsses"  value="300, 800">
+    <input id="openClosedIssues_value" type="hidden" name="listaDeValores"  value="{{test.lista}}">
+    <input id="commentsOpenClosedIssues_value" type="hidden" name="commentsIsses"  value="300, 800">
+    <input id="reactionsOpenIssues_value" type="hidden" name="reactionsOpenIssues"  value="70, 91, 80, 94, 60, 100, 93, 76">
+    <input id="reactionsClosedIssues_value" type="hidden" name="reactionsClosedIssues"  value="94, 60, 100, 93, 76, 65, 4, 80">
+
     <!---->
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -151,7 +154,7 @@
 
 
     /*  Graphic 01: Open issues e Closed issues  */
-    var amountOpenClosedIssues = document.getElementById('valueOpenClosedIssues').getAttribute("value").replace("[","").replace("]","").split(", ");
+    var vetor1 = document.getElementById('openClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
 
     var ctx1 = document.getElementById('openIssuesClosedIssues').getContext('2d');
     var openIssuesClosedIssues = new Chart(ctx1, {
@@ -160,7 +163,7 @@
             labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [parseInt(amountOpenClosedIssues[0]), parseInt(amountOpenClosedIssues[1])],
+                data: [parseInt(vetor1[0]), parseInt(vetor1[1])],
                 backgroundColor: [
                     'rgba(255, 206, 86, 0.2)',
                     'rgba(153, 102, 255, 0.2)',
@@ -179,7 +182,7 @@
     });
 
     /*  Graphic 02: Number of comments - Open issues and closed issues  */
-    var commentsOpenClosedIssues = document.getElementById('commentsOpenClosedIssues').getAttribute("value").replace("[","").replace("]","").split(", ");
+    var vetor2 = document.getElementById('commentsOpenClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
 
     var ctx2 = document.getElementById('commentsOpenIssuesClosedIssues').getContext('2d');
     var commentsOpenIssuesClosedIssues = new Chart(ctx2, {
@@ -188,7 +191,7 @@
             labels: ['Open', 'Closed'],
             datasets: [{
                 label: '# of Votes',
-                data: [parseInt(commentsOpenClosedIssues[0]), parseInt(commentsOpenClosedIssues[1])],
+                data: [parseInt(vetor2[0]), parseInt(vetor2[1])],
                 backgroundColor: [
                     'rgba(255, 159, 64, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -206,13 +209,17 @@
     });
 
     /*  Graphic 03: Reactions of Open Issues */
+    var vetor3 = document.getElementById('reactionsOpenIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
     var ctx3 = document.getElementById('reactionsOpenIssues').getContext('2d');
-    var reactionsOpenIssues = new Chart(ctx3, {
+    var reactionsOpenIssuesChart = new Chart(ctx3, {
         type: 'radar',
         data: {
             labels: ['Like', 'Heart', 'Hooray', 'Confused', 'Deslike', 'Laugh', 'Rocket', 'Eyes'],
             datasets: [{
-                data: [70,59, 80, 94, 60, 100, 93, 76],
+                data: [parseInt(vetor3[0]), parseInt(vetor3[1]),
+                       parseInt(vetor3[2]), parseInt(vetor3[3]),
+                       parseInt(vetor3[4]), parseInt(vetor3[5]),
+                       parseInt(vetor3[6]), parseInt(vetor3[7])],
                 label: "Number of Reactions ",
                 backgroundColor: [
                     'rgba(75, 192, 192, 0.2)',
@@ -235,14 +242,19 @@
         }
     });
 
-    /*  Graphic 04 */
+    /*  Graphic 04:  Reactions of Closed Issues*/
+    var vetor4 = document.getElementById('reactionsClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
+
     var ctx4 = document.getElementById('reactionsClosedIssues').getContext('2d');
     var reactionsClosedIssues = new Chart(ctx4, {
         type: 'radar',
         data: {
             labels: ['Like', 'Heart', 'Hooray', 'Confused', 'Deslike', 'Laugh', 'Rocket', 'Eyes'],
             datasets: [{
-                data: [ 94, 60, 100, 93, 76, 65, 4,80],
+                data: [parseInt(vetor4[0]), parseInt(vetor4[1]),
+                       parseInt(vetor4[2]), parseInt(vetor4[3]),
+                       parseInt(vetor4[4]), parseInt(vetor4[5]),
+                       parseInt(vetor4[6]), parseInt(vetor4[7])],
                 label: "Number of Reactions ",
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
