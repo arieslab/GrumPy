@@ -30,6 +30,9 @@
     <input id="reactionsOpenIssues_value" type="hidden" name="reactionsOpenIssues"  value="70, 91, 80, 94, 60, 100, 93, 76">
     <input id="reactionsClosedIssues_value" type="hidden" name="reactionsClosedIssues"  value="94, 60, 100, 93, 76, 65, 4, 80">
 
+    <input id="topLabelName" type="hidden" name="topLabels"  value="A, B, C, D, E, F, G, H, I, J">
+    <input id="topLabel_value" type="hidden" name="topLabels"  value="94, 60, 100, 93, 76, 65, 4, 80, 90, 75">
+
     <!---->
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -137,7 +140,19 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Top 10 labels</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="top10labels" ></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <script>
@@ -152,10 +167,8 @@
     var numberComments = document.getElementById('numberCommentsValues').getAttribute("value");
     document.getElementById('numberComments').innerHTML = numberComments;
 
-
     /*  Graphic 01: Open issues e Closed issues  */
     var vetor1 = document.getElementById('openClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
-
     var ctx1 = document.getElementById('openIssuesClosedIssues').getContext('2d');
     var openIssuesClosedIssues = new Chart(ctx1, {
         type: 'pie',
@@ -183,7 +196,6 @@
 
     /*  Graphic 02: Number of comments - Open issues and closed issues  */
     var vetor2 = document.getElementById('commentsOpenClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
-
     var ctx2 = document.getElementById('commentsOpenIssuesClosedIssues').getContext('2d');
     var commentsOpenIssuesClosedIssues = new Chart(ctx2, {
         type: 'pie',
@@ -242,9 +254,8 @@
         }
     });
 
-    /*  Graphic 04:  Reactions of Closed Issues*/
+    /*  Graphic 04:  Reactions of Closed Issues */
     var vetor4 = document.getElementById('reactionsClosedIssues_value').getAttribute("value").replace("[","").replace("]","").split(", ");
-
     var ctx4 = document.getElementById('reactionsClosedIssues').getContext('2d');
     var reactionsClosedIssues = new Chart(ctx4, {
         type: 'radar',
@@ -274,6 +285,54 @@
                     suggestedMax: 100
                 }
             }
+        }
+    });
+
+    /*  Graphic 05:  Top 10 labels */
+    var vetor5_name = document.getElementById('topLabelName').getAttribute("value").replace("[","").replace("]","").split(", ");
+    var vetor5_value = document.getElementById('topLabel_value').getAttribute("value").replace("[","").replace("]","").split(", ");
+
+    var ctx5 = document.getElementById('top10labels').getContext('2d');
+    var toplabels = new Chart(ctx5, {
+        type: 'bar',
+        data: {
+            labels: [vetor5_name[0], vetor5_name[1], vetor5_name[2], vetor5_name[3], vetor5_name[4],
+                     vetor5_name[5], vetor5_name[6], vetor5_name[7], vetor5_name[8], vetor5_name[9]],
+            datasets: [{
+                data: [parseInt(vetor5_value[0]), parseInt(vetor5_value[1]), parseInt(vetor5_value[2]), parseInt(vetor5_value[3]), parseInt(vetor5_value[4]),
+                       parseInt(vetor5_value[5]), parseInt(vetor5_value[6]), parseInt(vetor5_value[7]), parseInt(vetor5_value[8]), parseInt(vetor5_value[9])],
+                label: ["Labels"],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+            }]
+        },
+        options: {
         }
     });
 
