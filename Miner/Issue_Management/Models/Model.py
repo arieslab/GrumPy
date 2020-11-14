@@ -6,6 +6,9 @@ class RepositoryClass:
     def __init__(self, name):
         self.repository_name = name
         self.amount_closed_issues = self.amount_open_issues = self.amount_of_issues = 0
+        self.getAmountOfIssues('open')
+        self.getAmountOfIssues('closed')
+        self.getAmountOfIssues('all')
 
     def getAmountOfIssues(self, state):
         db_Connection = Connections()
