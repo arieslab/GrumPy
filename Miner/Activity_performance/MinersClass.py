@@ -18,7 +18,7 @@ class MinerClass:
         VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
 
         try:
-
+            VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
             for event in issue.get_events():
                 VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 e = ''
@@ -40,12 +40,15 @@ class MinerClass:
                             issue.number, event.actor.login, event.created_at, event.event, event.label.name)
                 issue_events_list.append(event_formatted)
         except requests.exceptions.ReadTimeout as aes:
-            raise SystemError('ReadTimeout error in event mining')
+            print('ReadTimeout error in event mining')
+            raise
         except requests.exceptions.ConnectionError as aes:
-            raise SystemError('Connection error in event mining')
+            print('Connection error in event mining')
+            raise
         except GithubException as d:
             if (d.status == 403):
-                raise SystemError('Request limit achieved in event mining ')
+                print('Request limit achieved in event mining ')
+                raise
 
         return issue_events_list
 
@@ -70,12 +73,15 @@ class MinerClass:
                 issue_comments_list.append(comment_formatted)
 
         except requests.exceptions.ReadTimeout as aes:
-            raise SystemError('ReadTimeout error in event mining')
+            print('ReadTimeout error in event mining')
+            raise
         except requests.exceptions.ConnectionError as aes:
-            raise SystemError('Connection error in event mining')
+            print('Connection error in event mining')
+            raise
         except GithubException as d:
             if (d.status == 403):
-                raise SystemError('Request limit achieved in event mining ')
+                print('Request limit achieved in event mining ')
+                raise
 
         return issue_comments_list
 
@@ -100,12 +106,15 @@ class MinerClass:
                 reactions_list[str(TheReaction)] += 1
 
         except requests.exceptions.ReadTimeout as aes:
-            raise SystemError('ReadTimeout error in event mining')
+            print('ReadTimeout error in event mining')
+            raise
         except requests.exceptions.ConnectionError as aes:
-            raise SystemError('Connection error in event mining')
+            print ('Connection error in event mining')
+            raise
         except GithubException as d:
             if (d.status == 403):
-                raise SystemError('Request limit achieved in event mining ')
+                print('Request limit achieved in event mining ')
+                raise
 
         return pattern.ReactionPattern(reactions_list)
 
@@ -116,14 +125,18 @@ class MinerClass:
 
         try:
             for label in self.repository.get_labels():
+                VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 repo_labels_list.append(label.name)
         except requests.exceptions.ReadTimeout as aes:
-            raise SystemError('ReadTimeout error in event mining')
+            print('ReadTimeout error in event mining')
+            raise
         except requests.exceptions.ConnectionError as aes:
-            raise SystemError('Connection error in event mining')
+            print('Connection error in event mining')
+            raise
         except GithubException as d:
             if (d.status == 403):
-                raise SystemError('Request limit achieved in event mining ')
+                print('Request limit achieved in event mining ')
+                raise
 
         return pattern.LabelsPattern(repo_labels_list)
 
@@ -134,25 +147,31 @@ class MinerClass:
 
         try:
             for label in issue.get_labels():
+                VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
                 issue_labels_list.append(label.name)
         except requests.exceptions.ReadTimeout as aes:
-            raise SystemError('ReadTimeout error in event mining')
+            print('ReadTimeout error in event mining')
+            raise
         except requests.exceptions.ConnectionError as aes:
-            raise SystemError('Connection error in event mining')
+            print('Connection error in event mining')
+            raise
         except GithubException as d:
             if (d.status == 403):
-                raise SystemError('Request limit achieved in event mining ')
+                print('Request limit achieved in event mining ')
+                raise
 
         return pattern.LabelsPattern(issue_labels_list)
 
 
     def getLastIssue(self):
+        VerificationClass(self.authentication, self.time_to_wait, self.num_requests)
         try:
             for issue in self.repository.get_issues(state='all'):
                 return int(issue.number)
         except GithubException as d:
             if (d.status == 404):
-                raise SystemError('Error 404')
+                print('Error 404')
+                raise
 
     def getIssue(self, number):
         try:
@@ -173,6 +192,7 @@ class MinerClass:
         issue_reactions = self.reactions_mining(issue)
         issue_labels = self.issue_labels_mining(issue)
         repository_labels = self.repo_labels_mining()
+        VerificationClass(self.authentication, 1800, 5)
         return pattern.issuePattern(self.repository.name,
                                      issue.number,
                                      issue.user.login,
