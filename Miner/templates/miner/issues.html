@@ -46,18 +46,22 @@
                 </tr>
                 </tfoot>
                 <tbody>
+                {% for repo in Repos_list %}
                 <tr>
-                    <td>Repo 01</td>
-                    <td style="text-align: center;vertical-align: middle;">01</td>
-                    <td style="text-align: center;vertical-align: middle;">15</td>
-                    <td style="text-align: center;vertical-align: middle;">Full</td>
-                    <td style="text-align: center;vertical-align: middle;">16</td>
+
+                    <td>{{ repo.repository_name }}</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_open_issues }}</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_closed_issues }}</td>
+                    <td style="text-align: center;vertical-align: middle;">-</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_of_issues }}</td>
                     <td style="text-align: center;vertical-align: middle;">
                         <a href="#" class="btn btn-success btn-circle btn-sm">
                             <i class="fas fa-eye"></i>
                         </a>
                     </td>
+
                 </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
