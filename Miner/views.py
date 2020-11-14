@@ -1,8 +1,12 @@
 from time import sleep
 
 from celery import app
+from celery.contrib.abortable import AbortableAsyncResult
 from celery.contrib.pytest import celery_app
 from celery.result import AsyncResult
+#from celery.worker.control import revoke, terminate
+from GrumPy.celery import app
+
 from django.views.decorators.csrf import csrf_exempt
 from Miner.Issue_Management.Models.Model import RepositoryClass
 from .miningTask import mining_worker, test_worker
@@ -172,16 +176,12 @@ def startMining(request, id):
 def stopMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
-
         print(str(miner.minertaskid))
-        for t in celery_tasks:
-            if (t.task_id == miner.minertaskid):
-                task = t
-                task.abort()
-                celery_tasks.remove(task)
 
-        Miner.objects.filter(pk=id).update(minerstatus='Task aborted')
-        print('Stop ' + str(miner.minername))
+        id_worker = miner.minertaskid
+        worker = AbortableAsyncResult(id_worker)
+        print(worker.is_aborted())
+        worker.abort()
 
     return HttpResponseRedirect('/miners')
 
