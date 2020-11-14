@@ -70,6 +70,7 @@ class Connections:
 
         return list_of_col
 
-
+    def getListOfRepo(self):
+        return self.issues_db.list_collection_names()
 
 
