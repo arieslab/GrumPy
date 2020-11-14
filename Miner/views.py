@@ -104,8 +104,23 @@ def newMiner(request):
 def teste(request):
     return render(request, 'miner/teste.html')
 
+
 def issues(request):
-    return render(request, 'miner/issues.html')
+    connection_instance = Connections()
+    ListOfRepos = []
+
+    for repo in connection_instance.getListOfRepo():
+        repo_instance = RepositoryClass(repo)
+
+        ListOfRepos.append(repo_instance)
+
+    connection_instance.closeConnectionToDB()
+
+    context = {
+        'Repos_list': ListOfRepos
+    }
+
+    return render(request, 'miner/issues.html', context)
 
 
 class Test:
@@ -122,11 +137,9 @@ def dashboard(request):
 
     amountOfIssues = openedIssues + closedIssues
 
-
     connection_instance.closeConnectionToDB()
 
     testeLista = Test([openedIssues, closedIssues])
-
 
     context = {
         'test': testeLista,
