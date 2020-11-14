@@ -104,6 +104,9 @@ def newMiner(request):
 def teste(request):
     return render(request, 'miner/teste.html')
 
+def issues(request):
+    return render(request, 'miner/issues.html')
+
 
 class Test:
     def __init__(self, lista):
