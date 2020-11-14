@@ -12,7 +12,9 @@ class VerificationClass:
         self.time_to_wait = time_to_wait
         self.Requests_Amount = self.verify_rate_limit()
 
-        print('Verifying... Nº of Requests '+str(self.Requests_Amount))
+
+
+        #print('Verifying... Nº of Requests '+str(self.Requests_Amount))
 
         if (self.Requests_Amount < self.time_to_wait):
             self.wait_until()
@@ -26,8 +28,9 @@ class VerificationClass:
             raise SystemError('ConnectionError')
 
     def wait_until(self):
-        print('Verificando... ')
+        #print('Verificando... ')
         while (self.Requests_Amount < self.limit):
             print('Requests: ' + str(self.Requests_Amount) + ' Limit: ' + str(self.limit))
             sleep(self.time_to_wait)
             self.Requests_Amount = self.verify_rate_limit()
+
