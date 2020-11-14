@@ -52,7 +52,8 @@ def mining_worker(self, miner_id):
             return 'Task aborted'
 
         string = 'Mining repo ' + str(repo) + ' (' + str(repo_count) + '/' + str(len(repositories_list)) + ')'
-        progress_recorder.set_progress(repo_count + 1, len(repositories_list), string)
+        repo_count += 1
+        progress_recorder.set_progress(repo_count, len(repositories_list), string)
 
         first_issue = last_issue = 1
 
@@ -69,6 +70,7 @@ def mining_worker(self, miner_id):
 
         if (last_issue is not None):
             while (flag == False):
+                VerificationClass(authentication, 1800, 5)
                 if self.is_aborted():
                     connectionToDB.closeConnectionToDB()
                     return 'Task aborted'
@@ -103,11 +105,13 @@ def mining_worker(self, miner_id):
                             if (connectionToDB.findIssue(first_issue, repo) is None):
                                 if self.is_aborted():
                                     return 'Task aborted'
-                                VerificationClass(authentication, 1800, 5)
+
 
                                 issue_formatted = ISSUE_extrac.issue_mining(issue)
+                                stng = str(first_issue)+'/'+str(last_issue) + ' Repolist: '+str(repo_count) + '/'+str(len(repositories_list))
+                                progress_recorder.set_progress(repo_count, len(repositories_list), stng)
 
-                                print(str(issue_formatted))
+                                print(stng)
 
                                 connectionToDB.saveJsonAsIssue(issue_formatted, repo)
 
