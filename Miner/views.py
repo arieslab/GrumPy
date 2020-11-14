@@ -182,6 +182,9 @@ def stopMining(request, id):
         worker = AbortableAsyncResult(id_worker)
         print(worker.is_aborted())
         worker.abort()
+        print(worker.is_aborted())
+
+        Miner.objects.filter(pk=id).update(minerstatus='Task aborted')
 
     return HttpResponseRedirect('/miners')
 
