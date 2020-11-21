@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 PLACE = 'localhost'
 PORT = 27017
 DB_NAME = 'GithubIssuesDB'
@@ -72,5 +73,8 @@ class Connections:
 
     def getListOfRepo(self):
         return self.issues_db.list_collection_names()
+
+    def getListOfIssues(self, name_collection):
+        return self.issues_db[name_collection].find({})
 
 
