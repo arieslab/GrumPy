@@ -18,9 +18,9 @@
 {% block content %}
 <h3>
         <span class="js-issue-title m-0 font-weight-bold text-primary">
-            Título da Issue
+            {{Issue.title}}
         </span>
-    <span class="f1-light text-gray-light">#2461</span>
+    <span class="f1-light text-gray-light">#{{Issue.id}}</span>
 </h3>
 
 <div class="row">
@@ -30,14 +30,14 @@
                     <span class="icon text-white-50">
                       <i class="fas fa-fw fa-exclamation-circle"></i>
                     </span>
-            <span class="text">Open</span>
+            <span class="text">{{ Issue.status }}</span>
         </a>
 
         <span> Issue created by </span>
-        <span><b>Railana</b></span>
+        <span><b>{{ Issue.author }}</b></span>
         <span>on </span>
-        <span>21/11/2020</span> ·
-        <span>3</span>
+        <span>{{ Issue.createdAt }}</span> ·
+        <span>{{ Issue.amountComment }}</span>
         <span>comment(s)</span>
 
         <hr>
@@ -45,119 +45,86 @@
         <!-- Default Card Example -->
         <div class="card mb-4">
             <div class="card-header">
-                Railana comentou em 21/11/2020
+                {{ Issue.author }} says in {{ Issue.createdAt }}
             </div>
             <div class="card-body">
-                This card uses Bootstrap's default styling with no utility classes added. Global styles are the only things modifying the look and feel of this default card example.
+                {{ Issue.body }}
             </div>
             <div class="card-footer">
                 <div class="row">
                     <div class="col-1">
-                        0 <span>&#128077;</span>
+                        {{ Issue.reactions.like }} <span>&#128077;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128078;</span>
+                        {{ Issue.reactions.deslike }} <span>&#128078;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128516;</span>
+                        {{ Issue.reactions.laught }} <span>&#128516;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#127881;</span>
+                        {{ Issue.reactions.hooray  }} <span>&#127881;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128533;</span>
+                        {{ Issue.reactions.confused }} <span>&#128533;</span>
                     </div>
 
                     <div class="col-1">
-                        0 <span>&#129505;</span>
+                        {{ Issue.reactions.heart }} <span>&#129505;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128640;</span>
+                        {{ Issue.reactions.rocket }} <span>&#128640;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128064;</span>
+                        {{ Issue.reactions.eyes  }} <span>&#128064;</span>
                     </div>
                 </div>
             </div>
         </div>
+
+        {% for comment in Issue.issueComments %}
+
 
         <!-- Default Card Example -->
         <div class="card mb-4">
             <div class="card-header">
-                Alice comentou em 21/11/2020
+                {{ comment.author }} comment in {{ comment.created_at }}
             </div>
             <div class="card-body">
-                This card uses Bootstrap's default styling with no utility classes added. Global styles are the only things modifying the look and feel of this default card example.
+                {{ comment.text }}
             </div>
             <div class="card-footer">
                 <div class="row">
                     <div class="col-1">
-                        0 <span>&#128077;</span>
+                        {{ comment.reactions.like }} <span>&#128077;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128078;</span>
+                        {{ comment.reactions.deslike }} <span>&#128078;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128516;</span>
+                        {{ comment.reactions.laught }} <span>&#128516;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#127881;</span>
+                        {{ comment.reactions.hooray  }} <span>&#127881;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128533;</span>
+                        {{ comment.reactions.confused }} <span>&#128533;</span>
                     </div>
 
                     <div class="col-1">
-                        0 <span>&#129505;</span>
+                        {{ comment.reactions.heart }} <span>&#129505;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128640;</span>
+                        {{ comment.reactions.rocket }} <span>&#128640;</span>
                     </div>
                     <div class="col-1">
-                        0 <span>&#128064;</span>
+                        {{ comment.reactions.eyes  }} <span>&#128064;</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Default Card Example -->
-        <div class="card mb-4">
-            <div class="card-header">
-                Joselito comentou em 21/11/2020
-            </div>
-            <div class="card-body">
-                This card uses Bootstrap's default styling with no utility classes added. Global styles are the only things modifying the look and feel of this default card example.
-            </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-1">
-                        0 <span>&#128077;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#128078;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#128516;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#127881;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#128533;</span>
-                    </div>
+        {% endfor %}
 
-                    <div class="col-1">
-                        0 <span>&#129505;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#128640;</span>
-                    </div>
-                    <div class="col-1">
-                        0 <span>&#128064;</span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col">
         <!-- Basic Card Example -->
