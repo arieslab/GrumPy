@@ -142,7 +142,7 @@
                         <a target="_blank"><strong> {{ event.event }} </strong> </a>
                         <a href="#" class="float-right">{{ event.created_at }}</a>
                         <p><i><strong> Author: </strong> {{ event.author }} </i></p>
-                        {% if event.event == 'labeled' %}
+                        {% if event.event == 'LABELED' %}
                             <p><i><strong> Label: </strong> {{ event.label }} </i></p>
                         {%endif %}
 
