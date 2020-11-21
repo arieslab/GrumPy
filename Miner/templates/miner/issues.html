@@ -55,9 +55,12 @@
                     <td style="text-align: center;vertical-align: middle;">-</td>
                     <td style="text-align: center;vertical-align: middle;">{{ repo.amount_of_issues }}</td>
                     <td style="text-align: center;vertical-align: middle;">
-                        <a href="#" class="btn btn-success btn-circle btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </a>
+                        <form action="{% url 'showListOfIssues' repo.repository_name_url %}" method="post">
+                            {% csrf_token %}
+                            <button href="#" class="btn btn-success btn-circle btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </form>
                     </td>
 
                 </tr>
