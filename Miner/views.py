@@ -1,5 +1,4 @@
 from time import sleep
-
 from celery import app
 from celery.contrib.abortable import AbortableAsyncResult
 from celery.contrib.pytest import celery_app
@@ -8,7 +7,7 @@ from celery.result import AsyncResult
 from GrumPy.celery import app
 
 from django.views.decorators.csrf import csrf_exempt
-from Miner.Issue_Management.Models.Model import RepositoryClass
+from Miner.Issue_Management.Models.Model import RepositoryClass, IssueIndex
 from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
@@ -232,3 +231,33 @@ def MainStatistics(request):
     }
 
     return render(request, 'miner/StatisticsIndex.html', context)
+
+
+def showListOfIssues(request, reponame):
+    r_name = reponame.replace('%2F', '/')
+    connection_instance = Connections()
+
+    ListOfIssues = []
+
+    for i in connection_instance.getListOfIssues(r_name):
+        IssueAtt = IssueIndex(r_name,
+                              i['Id'],
+                              i['Status'],
+                              len(i['Reactions']),
+                              (int(i['Reactions'].get('Like')) +
+                               int(i['Reactions'].get('Heart')) +
+                               int(i['Reactions'].get('Hooray')) +
+                               int(i['Reactions'].get('Confused')) +
+                               int(i['Reactions'].get('Deslike')) +
+                               int(i['Reactions'].get('Laugh')) +
+                               int(i['Reactions'].get('Rocket')) +
+                               int(i['Reactions'].get('Eyes'))),
+                              len(i['Events']))
+
+        ListOfIssues.append(IssueAtt)
+
+    context = {
+        'Issues_List': ListOfIssues
+    }
+
+    return render(request, 'miner/showListOfIssues.html', context)
