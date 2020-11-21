@@ -3,7 +3,7 @@ from celery import app
 from celery.contrib.abortable import AbortableAsyncResult
 from celery.contrib.pytest import celery_app
 from celery.result import AsyncResult
-#from celery.worker.control import revoke, terminate
+# from celery.worker.control import revoke, terminate
 from GrumPy.celery import app
 
 from django.views.decorators.csrf import csrf_exempt
@@ -106,6 +106,7 @@ def newMiner(request):
 
 def teste(request):
     return render(request, 'miner/teste.html')
+
 
 def detailed_issue(request):
     return render(request, 'miner/detailed_issue.html')
@@ -264,3 +265,9 @@ def showListOfIssues(request, reponame):
     }
 
     return render(request, 'miner/showListOfIssues.html', context)
+
+
+def IssueDetail(request, reponame, id):
+    print(str(reponame))
+    print(id)
+    return render(request, 'miner/detailed_issue.html')
