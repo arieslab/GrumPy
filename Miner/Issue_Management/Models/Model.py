@@ -37,3 +37,4 @@ class IssueIndex:
         self.comments = comments
         self.reactions = reactions
         self.events = events
+        self.repository_name_url = repoName.replace('/', '%2F')
