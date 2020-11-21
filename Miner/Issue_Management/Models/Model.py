@@ -53,6 +53,8 @@ class Issue:
         self.repository_labels = []
         self.issue_labels = []
 
+        self.githubURL = 'http://www.github.com/'+str(self.repository)+'/issues/'+str(id)
+
         reactions = self.issueJson['Reactions']
 
         for label in self.issueJson['Repository_Labels']:
@@ -70,12 +72,14 @@ class Issue:
             self.issueEvent.append(event_instance)
 
         self.issueComments = []
+        comments = self.issueJson['Comments']
 
-        for comment in self.issueJson['Comments']:
-            comment = Comment(comment)
-            self.issueComments.append(comment)
+        if(comments != None):
+            for comment in comments:
+                comment = Comment(comment)
+                self.issueComments.append(comment)
 
-        self.amountComment = len(self.issueComments)
+            self.amountComment = len(self.issueComments)
 
 
     def getIssueInDB(self):
