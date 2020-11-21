@@ -217,3 +217,21 @@ def viewprogress(request, id):
     }
 
     return render(request, 'miner/viewMinerProgress.html', context)
+
+
+def MainStatistics(request):
+    connection_instance = Connections()
+    ListOfRepos = []
+
+    for repo in connection_instance.getListOfRepo():
+        repo_instance = RepositoryClass(repo)
+
+        ListOfRepos.append(repo_instance)
+
+    connection_instance.closeConnectionToDB()
+
+    context = {
+        'Repos_list': ListOfRepos
+    }
+
+    return render(request, 'miner/StatisticsIndex.html', context)

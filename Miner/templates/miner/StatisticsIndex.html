@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %} Grumpy {% endblock %}
+
+
+{% block title_page %}Issues{% endblock %}
+
+
+{% block import_css %}
+<!-- Custom styles for this page -->
+<link href="../../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block issues_active %}active{% endblock %}
+
+
+
+{% block content %}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Mined Issues</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Repository Name</th>
+                    <th style="text-align: center;vertical-align: middle;">Open issues</th>
+                    <th style="text-align: center;vertical-align: middle;">Closed issues</th>
+                    <th style="text-align: center;vertical-align: middle;">Status</th>
+                    <th style="text-align: center;vertical-align: middle;">Amount of issues</th>
+                    <th class="action th sorting_desc_disabled th sorting_asc_disabled" id="action" style="text-align: center;vertical-align: middle;">See issues</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Repository Name</th>
+                    <th style="text-align: center;vertical-align: middle;">Open issues</th>
+                    <th style="text-align: center;vertical-align: middle;">Closed issues</th>
+                    <th style="text-align: center;vertical-align: middle;">Status</th>
+                    <th style="text-align: center;vertical-align: middle;">Amount of issues</th>
+                    <th class="action th sorting_desc_disabled th sorting_asc_disabled"  style="text-align: center;vertical-align: middle;">See issues</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for repo in Repos_list %}
+                <tr>
+
+                    <td>{{ repo.repository_name }}</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_open_issues }}</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_closed_issues }}</td>
+                    <td style="text-align: center;vertical-align: middle;">-</td>
+                    <td style="text-align: center;vertical-align: middle;">{{ repo.amount_of_issues }}</td>
+                    <td style="text-align: center;vertical-align: middle;">
+                        <a href="#" class="btn btn-success btn-circle btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block import_script %}
+<!--IMPORT SCRIPTS -->
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/datatables-demo.js"></script>
+
+
+<script src="../../static/js/script.js"></script>
+
+{% endblock %}
