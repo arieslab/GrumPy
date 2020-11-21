@@ -26,11 +26,24 @@
 <div class="row">
 
     <div class="col-lg-8">
-        <a href="#" class="btn btn-success ">
+        {% if Issue.status == 'open' %}
+            <a href="#" class="btn btn-success ">
                     <span class="icon text-white-50">
                       <i class="fas fa-fw fa-exclamation-circle"></i>
                     </span>
-            <span class="text">{{ Issue.status }}</span>
+                <span class="text">{{ Issue.status }}</span>
+            </a>
+         {% endif %}
+
+        {% if Issue.status == 'closed' %}
+            <a href="#" class="btn btn-danger ">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-fw fa-exclamation-circle"></i>
+                    </span>
+                    <span class="text">{{ Issue.status }}</span>
+            </a>
+         {% endif %}
+
         </a>
 
         <span> Issue created by </span>
