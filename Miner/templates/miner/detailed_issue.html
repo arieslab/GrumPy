@@ -52,6 +52,7 @@
         <span>{{ Issue.createdAt }}</span> ·
         <span>{{ Issue.amountComment }}</span>
         <span>comment(s)</span>
+        <span> <a href="{{ Issue.githubURL }}" >Go to Github </a></span>
 
         <hr>
 
@@ -95,7 +96,6 @@
         </div>
 
         {% for comment in Issue.issueComments %}
-
 
         <!-- Default Card Example -->
         <div class="card mb-4">
