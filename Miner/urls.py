@@ -19,4 +19,5 @@ urlpatterns = [
     path('viewprogress/<int:id>', views.viewprogress, name='viewprogress'),
     path('statisticsMain', views.MainStatistics, name='statisticsMain'),
     path('showListOfIssues/<str:reponame>', views.showListOfIssues, name='showListOfIssues'),
+    path('issueDetail/<str:reponame>/<int:id>', views.IssueDetail, name='issueDetail'),
 ]
