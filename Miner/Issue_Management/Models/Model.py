@@ -109,5 +109,5 @@ class Event:
     def __init__(self, event):
         self.author = event['Author']
         self.created_at = event['Created_at']
-        self.event = event['Event']
+        self.event = event['Event'].upper()
         self.label = event['Label']
