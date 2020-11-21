@@ -7,6 +7,7 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('keys', views.keyList, name='key'),
     path('teste', views.teste),
+    path('detailed_issue', views.detailed_issue, name="detailed_issue"),
     path('issues', views.issues, name="issues"),
     path('keyform', views.newKey, name='keyform'),
     path('deletekey/<int:id>', views.deleteKey, name="deletekey"),
