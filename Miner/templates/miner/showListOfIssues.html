@@ -37,6 +37,7 @@
                 </thead>
                 <tfoot>
                 <tr>
+                    <th>Id</th>
                      <th style="text-align: center;vertical-align: middle;">Status</th>
                     <th style="text-align: center;vertical-align: middle;">Comments</th>
                     <th style="text-align: center;vertical-align: middle;">Reactions</th>
@@ -47,9 +48,26 @@
                 <tbody>
                 {% for i in Issues_List %}
                 <tr>
-
                     <td>{{ i.id }}</td>
-                    <td style="text-align: center;vertical-align: middle;">{{ i.status }}</td>
+                    <td style="text-align: center;vertical-align: middle;">
+                        {% if i.status == 'open' %}
+                            <a href="#" class="btn btn-success ">
+                                    <span class="icon text-white-50">
+                                      <i class="fas fa-fw fa-exclamation-circle"></i>
+                                    </span>
+                                <span class="text">{{ i.status }}</span>
+                            </a>
+                         {% endif %}
+
+                        {% if i.status == 'closed' %}
+                            <a href="#" class="btn btn-danger ">
+                                    <span class="icon text-white-50">
+                                      <i class="fas fa-fw fa-exclamation-circle"></i>
+                                    </span>
+                                    <span class="text">{{ i.status }}</span>
+                            </a>
+                         {% endif %}
+                        </td>
                     <td style="text-align: center;vertical-align: middle;">{{ i.comments }}</td>
                     <td style="text-align: center;vertical-align: middle;">{{ i.reactions }}</td>
                     <td style="text-align: center;vertical-align: middle;">{{ i.events }}</td>
