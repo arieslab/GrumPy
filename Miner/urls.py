@@ -17,4 +17,5 @@ urlpatterns = [
     path('deleteminer/<int:id>', views.deleteMiner, name="deleteminer"),
     path('viewprogress/<int:id>', views.viewprogress, name='viewprogress'),
     path('statisticsMain', views.MainStatistics, name='statisticsMain'),
+    path('showListOfIssues/<str:reponame>', views.showListOfIssues, name='showListOfIssues'),
 ]
