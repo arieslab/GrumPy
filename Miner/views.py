@@ -7,7 +7,7 @@ from celery.result import AsyncResult
 from GrumPy.celery import app
 
 from django.views.decorators.csrf import csrf_exempt
-from Miner.Issue_Management.Models.Model import RepositoryClass, IssueIndex
+from Miner.Issue_Management.Models.Model import RepositoryClass, IssueIndex, Issue
 from .miningTask import mining_worker, test_worker
 
 from django.http import HttpResponseRedirect
@@ -259,7 +259,7 @@ def showListOfIssues(request, reponame):
                               len(i['Events']))
 
         ListOfIssues.append(IssueAtt)
-
+    connection_instance.closeConnectionToDB()
     context = {
         'Issues_List': ListOfIssues
     }
@@ -268,6 +268,13 @@ def showListOfIssues(request, reponame):
 
 
 def IssueDetail(request, reponame, id):
-    print(str(reponame))
-    print(id)
-    return render(request, 'miner/detailed_issue.html')
+    #print(str(reponame))
+    #print(id)
+
+    issue = Issue(str(reponame), int(id))
+
+    context = {
+        'Issue': issue
+    }
+
+    return render(request, 'miner/detailed_issue.html', context)
