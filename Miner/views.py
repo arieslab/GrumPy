@@ -108,6 +108,9 @@ def newMiner(request):
 def teste(request):
     return render(request, 'miner/teste.html')
 
+def detailed_issue(request):
+    return render(request, 'miner/detailed_issue.html')
+
 
 def issues(request):
     connection_instance = Connections()
