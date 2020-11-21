@@ -38,3 +38,76 @@ class IssueIndex:
         self.reactions = reactions
         self.events = events
         self.repository_name_url = repoName.replace('/', '%2F')
+
+class Issue:
+    def __init__(self, repo, id):
+        self.repository = str(repo.replace('%2F', '/'))
+        self.id = int(id)
+        self.issueJson = self.getIssueInDB()
+
+        self.createdAt = self.issueJson['Created_at']
+        self.status = self.issueJson['Status']
+        self.title = self.issueJson['Title']
+        self.body = self.issueJson['Body']
+        self.author = self.issueJson['Author']
+        self.repository_labels = []
+        self.issue_labels = []
+
+        reactions = self.issueJson['Reactions']
+
+        for label in self.issueJson['Repository_Labels']:
+            self.repository_labels.append(label)
+
+        for issueLabel in self.issueJson['Issue_Labels']:
+            self.repository_labels.append(issueLabel)
+
+        self.reactions = Reactions(reactions)
+
+        self.issueEvent = []
+
+        for event in self.issueJson['Events']:
+            event_instance = Event(event)
+            self.issueEvent.append(event_instance)
+
+        self.issueComments = []
+
+        for comment in self.issueJson['Comments']:
+            comment = Comment(comment)
+            self.issueComments.append(comment)
+
+        self.amountComment = len(self.issueComments)
+
+
+    def getIssueInDB(self):
+        connection_instance = Connections()
+        issue = connection_instance.findIssue(self.id, self.repository)
+        connection_instance.closeConnectionToDB()
+
+        return issue
+
+
+class Reactions:
+    def __init__(self, reactions):
+        self.like       = reactions['Like']
+        self.heart      = reactions['Heart']
+        self.hooray     = reactions['Hooray']
+        self.confused   = reactions['Confused']
+        self.deslike    = reactions['Deslike']
+        self.laught     = reactions['Laugh']
+        self.rocket     = reactions['Rocket']
+        self.eyes       = reactions['Eyes']
+
+class Comment:
+    def __init__(self, comment):
+        self.author = comment['Author']
+        self.created_at = comment['Date']
+        self.text = comment['Comments']
+        self.reactions = Reactions(comment['Reactions'])
+
+
+class Event:
+    def __init__(self, event):
+        self.author = event['Author']
+        self.created_at = event['Created_at']
+        self.event = event['Event']
+        self.label = event['Label']
