@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from GrumPy.secretKey import RETURN_SECRET_KEY
+from GrumPy.configs import RETURN_SECRET_KEY
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,6 @@ SECRET_KEY = RETURN_SECRET_KEY()
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
