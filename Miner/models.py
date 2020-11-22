@@ -30,6 +30,13 @@ class Repositories(models.Model):
     firstissuenumber = models.IntegerField('First issue', null=True)  # First issue value
     associatedMiner = models.CharField('Miner name', max_length=10000,)
     associatedStatisticWorker = models.CharField('Task id', max_length=10000, null=True)
+    openIssues = models.IntegerField('Open issue', null=True)
+    closedIssues = models.IntegerField('Closed issue', null=True)
+    amountOpenComments = models.IntegerField('Open issue comments', null=True)
+    amountClosedComments = models.IntegerField('Closed issue comments', null=True)
+    amountOpenReactions = models.IntegerField('Open issue reactions', null=True)
+    amountClosedReactions = models.IntegerField('Closed issue reactions', null=True)
+    amountMinedIssues = models.IntegerField('Closed issue reactions', null=True)
 
     def __str__(self):
         return self.reponame
