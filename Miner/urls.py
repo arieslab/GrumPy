@@ -20,4 +20,5 @@ urlpatterns = [
     path('statisticsMain', views.MainStatistics, name='statisticsMain'),
     path('showListOfIssues/<str:reponame>', views.showListOfIssues, name='showListOfIssues'),
     path('issueDetail/<str:reponame>/<int:id>', views.IssueDetail, name='issueDetail'),
+    path('repositoryDashboard/<str:reponame>', views.repositoryDashboard, name='repositoryDashboard'),
 ]
