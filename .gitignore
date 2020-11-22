@@ -109,7 +109,7 @@ media/
 *.db
 *.pid
 
-secretKey.py
+Secret_Key.txt
 # Ignore Django Migrations in Development if you are working on team
 
 # Only for Development only
