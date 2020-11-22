@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm, MinerForm
-from .models import Token, Miner
+from .models import Token, Miner, Repositories
 from Miner.Issues_Persistence.Connections import Connections
 
 celery_tasks = []
@@ -79,7 +79,7 @@ def newMiner(request):
             minerName = miner_form.cleaned_data['minername']
             # token_model.key = key_form.cleaned_data['token']
             tokenAssociated = miner_form.cleaned_data['tokenassociated']
-            repoList = miner_form.cleaned_data['repo_list']
+            repoList = miner_form.cleaned_data['repo_list'].split()
             token_id = Token.objects.filter(tokenname=tokenAssociated).values_list('id', flat=True).first()
 
             miner.minername = str(minerName)
@@ -88,8 +88,37 @@ def newMiner(request):
             miner.minedamount = 0
             miner.minerstatus = "Waiting"
             miner.minertaskid = '-'
-            miner.repo_list = repoList
+
+            repository_list = []
+
+
+            for repo in repoList:
+                repository = Repositories.objects.filter(reponame=repo).values_list('id', flat=True).first()
+                print(repository)
+
+                if (repository == None):
+                    repository_list.append(repo)
+                    repositoryInstance = Repositories()
+                    repositoryInstance.reponame = repo
+                    repositoryInstance.activitystatus = 'Waiting'
+                    repositoryInstance.firstissuenumber = repositoryInstance.lastissuenumber = 0
+                    repositoryInstance.currentminingissue = 0
+                    repositoryInstance.associatedStatisticWorker = '-'
+                    repositoryInstance.associatedMiner = str(minerName)
+                    repositoryInstance.save()
+
+            miner.repo_list = repository_list
+
             miner.save()
+
+            #miner_id_saved = Miner.objects.filter(minername=minerName).values_list('id', flat=True).first()
+
+            #MINER = Miner.objects.get(minername=minerName)
+
+            #print(MINER)
+
+
+
 
             # print(str(token_id))
             # miner_form.save()
@@ -268,8 +297,8 @@ def showListOfIssues(request, reponame):
 
 
 def IssueDetail(request, reponame, id):
-    #print(str(reponame))
-    #print(id)
+    # print(str(reponame))
+    # print(id)
 
     issue = Issue(str(reponame), int(id))
 
@@ -278,3 +307,14 @@ def IssueDetail(request, reponame, id):
     }
 
     return render(request, 'miner/detailed_issue.html', context)
+
+
+def repositoryDashboard(request, reponame):
+    r_name = reponame.replace('%2F', '/')
+    repository = Repositories.object.get(reponame=r_name)
+
+    #if(repository != None):
+
+
+    print(reponame)
+    return render(request, 'miner/repositoryDashboard.html')
