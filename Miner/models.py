@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Token(models.Model):
-    tokenname = models.CharField('Name', max_length=100)
+    tokenname = models.CharField('Name', max_length=100, unique=True)
     token = models.CharField('Token', max_length=100)
 
     def __str__(self):
@@ -10,7 +10,7 @@ class Token(models.Model):
 
 
 class Miner(models.Model):
-    minername = models.CharField('Name', max_length=100)  # Miner Name
+    minername = models.CharField('Name', max_length=100, unique=True)  # Miner Name
     repoamount = models.IntegerField('Repo amount')  # Repo amount of listed repo
     minedamount = models.IntegerField('Mined Repo Amount')  # Mined amount
     minerstatus = models.CharField('Status', max_length=100)  # Miner task status
@@ -23,12 +23,41 @@ class Miner(models.Model):
 
 
 class Repositories(models.Model):
-    reponame = models.CharField('Name', max_length=100)  # Repo Name
+    reponame = models.CharField('Name', max_length=100, unique=True)  # Repo Name
     activitystatus = models.CharField('Status', max_length=100)  # Activity status - Waiting, mining, mined
-    currentminingissue = models.IntegerField('Current mining issue')  # Current mined issue
-    lastissuenumber = models.IntegerField('Final issue')  # Last issue value
-    firstissuenumber = models.IntegerField('First issue')  # First issue value
-    associatedMiner = models.ForeignKey(Miner, on_delete=models.CASCADE)
+    currentminingissue = models.IntegerField('Current mining issue', null=True)  # Current mined issue
+    lastissuenumber = models.IntegerField('Final issue', null=True)  # Last issue value
+    firstissuenumber = models.IntegerField('First issue', null=True)  # First issue value
+    associatedMiner = models.CharField('Miner name', max_length=10000,)
+    associatedStatisticWorker = models.CharField('Task id', max_length=10000, null=True)
 
     def __str__(self):
         return self.reponame
+
+class Label(models.Model):
+    labelname = models.CharField('Label Name', max_length=10000) # Label name
+    amount = models.IntegerField('Label Amount') # Amount
+    reponame = models.CharField('Repo name', max_length=10000) # Repository name
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.labelname
+
+class IssuePerYear(models.Model):
+    year = models.DateField('Year') # Year
+    amountofissues = models.IntegerField('Issue Amount') # Amount of issues
+    reponame = models.CharField('Repo name', max_length=10000)  # Repository name
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE) # Repository fk
+
+    def __str__(self):
+        return self.year
+
+class Event(models.Model):
+    eventname = models.CharField('Event Name', max_length=10000) # Event name
+    amountOfEvent = models.IntegerField('Event amount')
+    reponame = models.CharField('Repo name', max_length=10000)  # Repository name
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.eventname
+
