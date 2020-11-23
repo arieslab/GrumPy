@@ -5,6 +5,7 @@ from celery.contrib.pytest import celery_app
 from celery.result import AsyncResult
 # from celery.worker.control import revoke, terminate
 from GrumPy.celery import app
+from Miner.statisticsTask import repositoryStatisticCalculator
 
 from django.views.decorators.csrf import csrf_exempt
 from Miner.Issue_Management.Models.Model import RepositoryClass, IssueIndex, Issue
@@ -14,7 +15,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import KeyForm, MinerForm
-from .models import Token, Miner, Repositories
+from .models import Token, Miner, Repositories, Event, Reactions
 from Miner.Issues_Persistence.Connections import Connections
 
 celery_tasks = []
@@ -89,41 +90,33 @@ def newMiner(request):
             miner.minerstatus = "Waiting"
             miner.minertaskid = '-'
 
-            repository_list = []
-
+            repository_list = ''
 
             for repo in repoList:
-                repository = Repositories.objects.filter(reponame=repo).values_list('id', flat=True).first()
-                print(repository)
+                repository_list += repo + ' '
 
-                if (repository == None):
-                    repository_list.append(repo)
+                if (Repositories.objects.filter(reponame=repo).count() > 0):
+                    Repositories.objects.filter(reponame=repo).update(activitystatus=str('Waiting'))
+                    Repositories.objects.filter(reponame=repo).update(associatedMiner=str(minerName))
+                else:
                     repositoryInstance = Repositories()
                     repositoryInstance.reponame = repo
                     repositoryInstance.activitystatus = 'Waiting'
                     repositoryInstance.firstissuenumber = repositoryInstance.lastissuenumber = 0
-                    repositoryInstance.currentminingissue = 0
-                    repositoryInstance.associatedStatisticWorker = '-'
+                    repositoryInstance.openIssues = repositoryInstance.closedIssues = 0
+                    repositoryInstance.amountOpenReactions = repositoryInstance.amountClosedReactions = 0
+                    repositoryInstance.amountOpenComments = repositoryInstance.amountClosedComments = 0
+
                     repositoryInstance.associatedMiner = str(minerName)
+                    repositoryInstance.currentminingissue = repositoryInstance.amountMinedIssues = 0
+                    repositoryInstance.associatedStatisticWorker = '-'
                     repositoryInstance.save()
 
             miner.repo_list = repository_list
 
             miner.save()
 
-            #miner_id_saved = Miner.objects.filter(minername=minerName).values_list('id', flat=True).first()
-
-            #MINER = Miner.objects.get(minername=minerName)
-
-            #print(MINER)
-
-
-
-
-            # print(str(token_id))
-            # miner_form.save()
-
-            messages.success(request, str('Minder ' + str(minerName) + ' saved successfully!'))
+            messages.success(request, str('Miner ' + str(minerName) + ' saved successfully!'))
             miner_form = MinerForm()
         else:
             messages.error(request, 'Error in save')
@@ -165,6 +158,7 @@ class Test:
 
 
 def dashboard(request):
+
     connection_instance = Connections()
 
     openedIssues = connection_instance.getAmountOfIssuesInDBByStatus('open')
@@ -177,23 +171,87 @@ def dashboard(request):
 
     testeLista = Test([openedIssues, closedIssues])
 
+    reactions_list = Reactions.objects.all()
+
+    reactions = {
+        'Like': 0, 'Heart': 0, 'Hooray': 0, 'Confused': 0, 'Deslike': 0, 'Laugh': 0, 'Rocket': 0, 'Eyes': 0
+    }
+
+    for reaction in reactions_list:
+        print(reaction.reponame)
+
+        reactions['Like'] += reaction.like
+        reactions['Heart'] += reaction.heart
+        reactions['Hooray'] += reaction.hooray
+        reactions['Confused'] += reaction.confused
+        reactions['Deslike'] += reaction.deslike
+        reactions['Laugh'] += reaction.laught
+        reactions['Rocket'] += reaction.rocket
+        reactions['Eyes'] += reaction.eyes
+
+    comments = 0
+
+    repos_list = Repositories.objects.all()
+
+    for repo in repos_list:
+        if(repo.amountOpenComments != None):
+            comments += repo.amountOpenComments
+        if (repo.amountClosedComments != None):
+            comments += repo.amountClosedComments
+
+    l = {'subscribed': 0, 'mentioned': 0, 'referenced': 0, 'labeled': 0, 'closed': 0, 'assigned': 0,
+         'merged': 0, 'milestoned':0, 'reopened': 0}
+
+    event_list = Event.objects.all()
+
+    for e in event_list:
+        l[e.eventname_1] += e.amountOfEvent_1
+        l[e.eventname_2] += e.amountOfEvent_2
+        l[e.eventname_3] += e.amountOfEvent_3
+        l[e.eventname_4] += e.amountOfEvent_4
+        l[e.eventname_5] += e.amountOfEvent_5
+
+
     context = {
         'test': testeLista,
         'amountOfRepos': amountOfRepos,
-        'amountOfIssues': amountOfIssues
-    }
-
+        'amountOfIssues': amountOfIssues,
+        'like': reactions['Like'],
+        'heart': reactions['Heart'],
+        'hooray': reactions['Hooray'],
+        'confused': reactions['Confused'],
+        'deslike': reactions['Deslike'],
+        'laugh': reactions['Laugh'],
+        'rocket': reactions['Rocket'],
+        'eyes': reactions['Eyes'],
+        'amountOfComments': comments,
+        'subscribed': l['subscribed'],
+        'mentioned': l['mentioned'],
+        'referenced': l['referenced'],
+        'labeled': l['labeled'],
+        'closed': l['closed']
+        }
     return render(request, 'miner/dashboard.html', context)
 
 
 def startMining(request, id):
     if (str(request.method) == 'POST'):
         miner = Miner.objects.get(id=id)
+
         # m_worker = test_worker.delay(miner.minername, id)
+
         m_worker = mining_worker.delay(id)
         celery_tasks.append(m_worker)
         Miner.objects.filter(pk=id).update(minertaskid=m_worker.task_id)
-        Miner.objects.filter(pk=id).update(minerstatus='Mining...')
+        Miner.objects.filter(pk=id).update(minerstatus='Mining')
+
+        repolist = miner.repo_list
+
+        repositories_list = repolist
+
+        s_worker = repositoryStatisticCalculator.delay(repositories_list, id)
+
+        Miner.objects.filter(pk=id).update(statisticstaskid=s_worker.task_id)
 
         print('Start ' + str(miner.minername))
 
@@ -215,6 +273,10 @@ def stopMining(request, id):
         print(worker.is_aborted())
         worker.abort()
         print(worker.is_aborted())
+
+        id_statistics_worker = miner.statisticstaskid
+        statistics_worker = AbortableAsyncResult(id_statistics_worker)
+        statistics_worker.abort()
 
         Miner.objects.filter(pk=id).update(minerstatus='Task aborted')
 
@@ -311,10 +373,25 @@ def IssueDetail(request, reponame, id):
 
 def repositoryDashboard(request, reponame):
     r_name = reponame.replace('%2F', '/')
-    repository = Repositories.object.get(reponame=r_name)
+    print(r_name)
 
-    #if(repository != None):
+    repository = Repositories.objects.get(reponame=r_name)
+    events = Event.objects.get(reponame=r_name)
+    reactions = Reactions.objects.get(reponame=r_name)
 
 
-    print(reponame)
-    return render(request, 'miner/repositoryDashboard.html')
+
+    print(repository.reponame)
+    amount_of_issues = repository.openIssues + repository.closedIssues
+
+    amount_of_comments = repository.amountOpenComments + repository.amountClosedComments
+
+    context = {
+        'repository': repository,
+        'events': events,
+        'reactions': reactions,
+        'amountIssues': amount_of_issues,
+        'amountComments': amount_of_comments
+    }
+
+    return render(request, 'miner/repositoryDashboard.html', context)
