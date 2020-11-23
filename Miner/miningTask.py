@@ -46,21 +46,33 @@ def mining_worker(self, miner_id):
     connectionToDB.openConnectionToDB()
     repo_count = 0
     print(str(miner.repo_list))
-    repositories_list = miner.repo_list.split()
+
+    repositories_list = miner.repo_list.split(' ')
+    repositories_list.remove('')
+    print(len(repositories_list))
+
     for repo in repositories_list:
+        print(repo)
         if self.is_aborted():
             return 'Task aborted'
+
+        REPO = Repositories.objects.get(reponame=repo)
+        Repositories.objects.filter(pk=REPO.id).update(activitystatus="Mining")
 
         string = 'Mining repo ' + str(repo) + ' (' + str(repo_count) + '/' + str(len(repositories_list)) + ')'
         repo_count += 1
         progress_recorder.set_progress(repo_count, len(repositories_list), string)
 
-        first_issue = last_issue = 1
+        first_issue = last_issue = 0
 
         ISSUE_extrac = MinerClass(authentication, 1800, 5, repo)
 
         last_issue = ISSUE_extrac.getLastIssue()
-        print(str(last_issue))
+        #print(str(last_issue))
+
+        REPO = Repositories.objects.get(reponame=repo)
+        Repositories.objects.filter(pk=REPO.id).update(firstissuenumber=int(first_issue))
+        Repositories.objects.filter(pk=REPO.id).update(lastissuenumber=int(last_issue))
 
         # flags -> 2 Continue process
         #       -> 0 Process finished
@@ -96,7 +108,7 @@ def mining_worker(self, miner_id):
                         return 'Task aborted'
 
                     while (first_issue <= last_issue):
-                        print('Entrando aqui!')
+                        #print('Entrando aqui!')
                         if self.is_aborted():
                             connectionToDB.closeConnectionToDB()
                             return 'Task aborted'
@@ -110,16 +122,22 @@ def mining_worker(self, miner_id):
 
 
                                 issue_formatted = ISSUE_extrac.issue_mining(issue)
-                                stng = str(first_issue)+'/'+str(last_issue) + ' Repolist: '+str(repo_count) + '/'+str(len(repositories_list))
-                                progress_recorder.set_progress(repo_count, len(repositories_list), stng)
+                                #string = str(first_issue)+'/'+str(last_issue) + ' issues of '+str(repo)+' in '+str(repo_count) + '/'+str(len(repositories_list)) + ' repositories'
+                                #progress_recorder.set_progress(repo_count, len(repositories_list), string)
 
-                                #print(self.is_aborted())
+                                print(self.is_aborted())
                                 if self.is_aborted():
                                     print('Task aborted')
                                     exit(0)
                                 connectionToDB.saveJsonAsIssue(issue_formatted, repo)
 
                         first_issue += 1
+
+                        REPO = Repositories.objects.get(reponame=repo)
+                        Repositories.objects.filter(pk=REPO.id).update(firstissuenumber=int(first_issue))
+
+                        print('First Issue '+str(first_issue))
+                        print('Last Issue ' + str(last_issue))
 
                         if (first_issue == last_issue):
                             flag = True
@@ -136,6 +154,11 @@ def mining_worker(self, miner_id):
                         Miner.objects.filter(pk=miner_id).update(minerstatus=warning_string)
 
         repo_count += 1
+        REPO = Repositories.objects.get(reponame=repo)
+        Repositories.objects.filter(pk=REPO.id).update(activitystatus="Finished")
+
+        #REPO = Repositories.objects.get(reponame=repo)
+        #Repositories.objects.filter(pk=REPO.id).update(activitystatus="Finished")
 
     connectionToDB.closeConnectionToDB()
     sucess_string = 'Finished! ' + str(len(repositories_list)) + ' repositories mined.'
