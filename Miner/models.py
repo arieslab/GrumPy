@@ -17,13 +17,14 @@ class Miner(models.Model):
     minertaskid = models.CharField('Task id', max_length=100)  # Asynchronous task id
     tokenassociated = models.ForeignKey(Token, on_delete=models.CASCADE)
     repo_list = models.TextField('Repositories list')
+    statisticstaskid = models.CharField('Task id', max_length=100)  # Asynchronous task id
 
     def __str__(self):
         return self.minername
 
 
 class Repositories(models.Model):
-    reponame = models.CharField('Name', max_length=100, unique=True)  # Repo Name
+    reponame = models.CharField('Name', max_length=100)  # Repo Name
     activitystatus = models.CharField('Status', max_length=100)  # Activity status - Waiting, mining, mined
     currentminingissue = models.IntegerField('Current mining issue', null=True)  # Current mined issue
     lastissuenumber = models.IntegerField('Final issue', null=True)  # Last issue value
@@ -45,7 +46,7 @@ class Label(models.Model):
     labelname = models.CharField('Label Name', max_length=10000) # Label name
     amount = models.IntegerField('Label Amount') # Amount
     reponame = models.CharField('Repo name', max_length=10000) # Repository name
-    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE)
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.labelname
@@ -54,17 +55,46 @@ class IssuePerYear(models.Model):
     year = models.DateField('Year') # Year
     amountofissues = models.IntegerField('Issue Amount') # Amount of issues
     reponame = models.CharField('Repo name', max_length=10000)  # Repository name
-    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE) # Repository fk
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE, null=True) # Repository fk
 
     def __str__(self):
         return self.year
 
 class Event(models.Model):
-    eventname = models.CharField('Event Name', max_length=10000) # Event name
-    amountOfEvent = models.IntegerField('Event amount')
+    eventname_1 = models.CharField('1 Event Name', max_length=10000) # Event name
+    amountOfEvent_1 = models.IntegerField('1 Event amount')
+
+    eventname_2 = models.CharField('2 Event Name', max_length=10000)  # Event name
+    amountOfEvent_2 = models.IntegerField('2 Second Event amount')
+
+    eventname_3 = models.CharField('3 Event Name', max_length=10000)  # Event name
+    amountOfEvent_3 = models.IntegerField('3 Second Event amount')
+
+    eventname_4 = models.CharField('4 Event Name', max_length=10000)  # Event name
+    amountOfEvent_4 = models.IntegerField('4 Event amount')
+
+    eventname_5 = models.CharField('5 Event Name', max_length=10000)  # Event name
+    amountOfEvent_5 = models.IntegerField('5 Event amount')
+
+
     reponame = models.CharField('Repo name', max_length=10000)  # Repository name
-    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE)
+    associatedRepo = models.ForeignKey(Repositories, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.eventname
 
+class Reactions(models.Model):
+
+    like = models.IntegerField('Like')
+    heart = models.IntegerField('Heart')
+    hooray = models.IntegerField('Horray')
+    confused = models.IntegerField('Confused')
+    deslike = models.IntegerField('Deslike')
+    laught = models.IntegerField('Laught')
+    rocket = models.IntegerField('Rocket')
+    eyes = models.IntegerField('Eyes')
+
+    reponame = models.CharField('Repo name', max_length=10000)
+
+    def __str__(self):
+        return self.reponame+' reactions'
