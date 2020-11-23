@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-
+import collections
 
 PLACE = 'localhost'
 PORT = 27017
@@ -53,6 +53,59 @@ class Connections:
 
     def getAmountInCollection(self, name_collection):
         return self.issues_db[name_collection].count()
+
+    def getAmountOfCommentsByStatus(self, name_collection, status):
+        issues = self.issues_db[name_collection].find({'Status': status})
+        comment_counter = 0
+
+
+        for issue in issues:
+            if(issue['Comments'] != None):
+                comment_counter += len(list(issue['Comments']))
+
+        return comment_counter
+
+    def getAmountOfReactions(self, name_colletion):
+        issues = self.issues_db[name_colletion].find({})
+        reactions = {
+            'Like':  0, 'Heart':   0, 'Hooray':   0, 'Confused':   0, 'Deslike':   0, 'Laugh':   0, 'Rocket':   0, 'Eyes':   0
+        }
+
+        for issue in issues:
+            issue_reactions = issue['Reactions']
+
+            for i in issue_reactions:
+                reactions[i] += issue_reactions[i]
+
+            try:
+                if (issue['Comments'] == None):
+                    return reactions
+            except TypeError:
+                    return reactions
+
+            for comment in issue['Comments']:
+                comment_reactions = comment['Reactions']
+
+                for c in comment_reactions:
+                    reactions[c] += comment_reactions[c]
+
+        return reactions
+
+    def getAmountOfEvents(self, name_collection):
+        issues = self.issues_db[name_collection].find({})
+        event_list = []
+
+        for issue in issues:
+            issue_event = issue['Events']
+
+            for e in issue_event:
+                event_list.append(e['Event'])
+
+        count_events = collections.Counter(event_list)
+
+        top10_events = count_events.most_common(10)
+
+        return top10_events
 
     def getIssuesByStatus(self, name_collection, status):
         return self.issues_db[name_collection].find({'Status': status})
