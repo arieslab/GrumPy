@@ -28,6 +28,39 @@ class RepositoryClass:
 
         db_Connection.closeConnectionToDB()
 
+    def getAmountOfComments(self, state):
+        db_Connection = Connections()
+        db_Connection.openConnectionToDB()
+
+        self.open_issues_comments = db_Connection.getAmountOfCommentsByStatus(self.repository_name, 'open')
+        self.closed_issues_comments = db_Connection.getAmountOfCommentsByStatus(self.repository_name, 'closed')
+
+        db_Connection.closeConnectionToDB()
+
+        if (state == 'all'):
+            return (self.open_issues_comments + self.closed_issues_comments)
+        elif (state == 'open'):
+            return self.open_issues_comments
+        elif (state == 'closed'):
+            return self.closed_issues_comments
+
+    def getAmountOfReactions(self):
+        db_Connection = Connections()
+        db_Connection.openConnectionToDB()
+
+        self.reactionsAmount = db_Connection.getAmountOfReactions(self.repository_name)
+
+        db_Connection.closeConnectionToDB()
+
+        return self.reactionsAmount
+
+    def getTop10OfEvents(self):
+        db_Connection = Connections()
+        db_Connection.openConnectionToDB()
+
+        self.topEvents = db_Connection.getAmountOfEvents(self.repository_name)
+
+        return self.topEvents
 
 class IssueIndex:
     def __init__(self, repoName, id, status, comments, reactions, events):
