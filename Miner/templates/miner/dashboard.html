@@ -23,15 +23,17 @@
     <!--  Disabled inputs   -->
     <input id="numberRepositoriesValues" type="hidden" name="numberRepositories"  value="{{amountOfRepos}}">
     <input id="numberIssuesValues" type="hidden" name="numberIssues"  value="{{amountOfIssues}}">
-    <input id="numberCommentsValues" type="hidden" name="numberComments"  value="-">
+    <input id="numberCommentsValues" type="hidden" name="numberComments"  value="{{amountOfComments}}">
 
     <input id="openClosedIssues_value" type="hidden" name="listaDeValores"  value="{{test.lista}}">
     <input id="commentsOpenClosedIssues_value" type="hidden" name="commentsIsses"  value="300, 800">
-    <input id="reactionsOpenIssues_value" type="hidden" name="reactionsOpenIssues"  value="70, 91, 80, 94, 60, 100, 93, 76">
+
+
+    <input id="reactionsOpenIssues_value" type="hidden" name="reactionsOpenIssues"  value="{{like}}, {{heart}}, {{hooray}}, {{confused}}, {{deslike}}, {{laugh}}, {{rocket}}, {{eyes}}">
     <input id="reactionsClosedIssues_value" type="hidden" name="reactionsClosedIssues"  value="94, 60, 100, 93, 76, 65, 4, 80">
 
-    <input id="topLabelName" type="hidden" name="topLabels"  value="A, B, C, D, E, F, G, H, I, J">
-    <input id="topLabel_value" type="hidden" name="topLabels"  value="94, 60, 100, 93, 76, 65, 4, 80, 90, 75">
+    <input id="topLabelName" type="hidden" name="topLabels"  value="subscribed, mentioned, referenced, labeled, closed">
+    <input id="topLabel_value" type="hidden" name="topLabels"  value="{{subscribed}}, {{mentioned}}, {{referenced}}, {{labeled}}, {{closed}}">
 
     <!---->
 
@@ -145,7 +147,7 @@
             <!-- Basic Card Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Top 10 labels</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Top 10 events</h6>
                 </div>
                 <div class="card-body">
                     <canvas id="top10labels" ></canvas>
@@ -297,11 +299,11 @@
         type: 'bar',
         data: {
             labels: [vetor5_name[0], vetor5_name[1], vetor5_name[2], vetor5_name[3], vetor5_name[4],
-                     vetor5_name[5], vetor5_name[6], vetor5_name[7], vetor5_name[8], vetor5_name[9]],
+                     ],
             datasets: [{
                 data: [parseInt(vetor5_value[0]), parseInt(vetor5_value[1]), parseInt(vetor5_value[2]), parseInt(vetor5_value[3]), parseInt(vetor5_value[4]),
-                       parseInt(vetor5_value[5]), parseInt(vetor5_value[6]), parseInt(vetor5_value[7]), parseInt(vetor5_value[8]), parseInt(vetor5_value[9])],
-                label: ["Labels"],
+                       ],
+                label: ["Events"],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
