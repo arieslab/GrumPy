@@ -113,7 +113,10 @@ if(sys.argv[1] == 'Install'):
             subprocess.call('start /wait pip install pygithub', shell=True)
             print('Installing Django-bootstrap4')
             subprocess.call('start /wait pip install django-bootstrap4', shell=True)
-
+            print('Installing Pymongo')
+            subprocess.call('start /wait pip install pymongo', shell=True)
+            print('Installing Pytest')
+            subprocess.call('start /wait pip install pytest', shell=True)
 
         flag = input('Would you like to perform the database migrations? (Y or N): ')
 
