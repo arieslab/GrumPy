@@ -29,7 +29,7 @@
 
 ###### 9. Open any browser (Google Chrome, Edge, Mozilla Firefox)  and type in the address:
 
-``` http://localhost:8000 ```
+``` http://localhost:8000 ``` or select the browser list in terminal to open GrumPy
 
 ###### (TO CLOSE THE APPLICATION in Run mode, CLOSE ALL THE WINDOW THAT THE SCRIPT OPENED)
 ###### To disable venv type:
