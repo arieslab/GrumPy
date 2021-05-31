@@ -2,6 +2,7 @@ import urllib.request
 import pathlib
 import os
 import sys
+import webbrowser
 from zipfile import ZipFile
 import subprocess
 from threading import Thread
@@ -27,6 +28,19 @@ def starts_MongoDB(p):
 def starts_celery(p):
     subprocess.call(p, shell=True)
     print('Celery terminal closed')
+
+def starts_browser(p):
+    if (flag.upper() == '1'):
+        webbrowser.register('chrome', None, webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
+        webbrowser.get('chrome').open_new("http://localhost:8000")
+    elif(flag.upper() == '2'):
+        webbrowser.register('edge', None, webbrowser.BackgroundBrowser("C://Program Files (x86)//Microsoft//Edge//Application//msedge.exe"))
+        webbrowser.get('edge').open_new("http://localhost:8000")    
+    elif(flag.upper() == '3'): 
+        webbrowser.register('firefox', None,  webbrowser.BackgroundBrowser('C://Program Files//Mozilla Firefox//firefox.exe'))
+        webbrowser.get('firefox').open_new("http://localhost:8000")
+
+    print('Browser closed')
 
 if(sys.argv[1] == 'Install'):
     if (sys.platform == 'win32'):
@@ -149,6 +163,22 @@ elif(sys.argv[1] == 'Run'):
         run_grumpy = 'start python manage.py runserver'
         Grumpy_terminal_thread = Thread(target=starts_grumpy, args=(run_grumpy,))
         thread_management.append(Grumpy_terminal_thread)
+
+        print('Select your browser')
+        print('(1) Chrome')
+        print('(2) Edge')
+        print('(3) Firefox')
+
+        flag = input('Type the number: ')
+
+        if (flag.upper() == '1'):
+            Browser_thread = Thread(target=starts_browser, args=('1',))
+        elif(flag.upper() == '2'):
+            Browser_thread = Thread(target=starts_browser, args=('2',))
+        elif(flag.upper() == '3'):
+            Browser_thread = Thread(target=starts_browser, args=('3',))
+
+        thread_management.append(Browser_thread)
 
         for i in thread_management:
             i.start()
