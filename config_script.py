@@ -81,10 +81,6 @@ if(sys.argv[1] == 'Install'):
             data_folder = data_folder + '\\db'
             os.mkdir(data_folder)
 
-            #run_mongodb = 'start /wait ' + str(pathlib.Path().absolute()) + '\\mongodb-win32-x86_64-windows-4.4.1\\bin\\mongod --dbpath ' + data_folder
-
-
-
         flag = input('Would you like to download and install PIP? (Y or N): ')
 
         if (flag.upper() == 'Y'):
@@ -95,12 +91,12 @@ if(sys.argv[1] == 'Install'):
             os.remove("get-pip.py")
             print('PIP installed!')
 
-
+        
         flag = input('Would you like to download and install the GrumPy dependencies by PIP? (Y or N): ')
 
         if (flag.upper() == 'Y'):
             print('Installing Celery')
-            subprocess.call('start /wait pip install celery', shell=True)
+            subprocess.call('start /wait pip install pip install celery==5.0.5', shell=True)
             print('Installing Redis')
             subprocess.call('start /wait pip install redis', shell=True)
             print('Installing Django-celery-results')
@@ -117,6 +113,16 @@ if(sys.argv[1] == 'Install'):
             subprocess.call('start /wait pip install pymongo', shell=True)
             print('Installing Pytest')
             subprocess.call('start /wait pip install pytest', shell=True)
+            print('Installing eventlet')
+            subprocess.call('start /wait pip install eventlet', shell=True)
+            print('Installing gevent')
+            subprocess.call('start /wait pip install gevent', shell=True)
+            print('Installing Bootstrap4')
+            subprocess.call('start /wait python -m pip install bootstrap4', shell=True)
+            print('Installing Requests')
+            subprocess.call('start /wait python -m pip install requests', shell=True)
+            print('Installing django_forms_bootstrap')
+            subprocess.call('start /wait python -m pip install django_forms_bootstrap', shell=True)
 
         flag = input('Would you like to perform the database migrations? (Y or N): ')
 
@@ -126,34 +132,23 @@ if(sys.argv[1] == 'Install'):
             migrate_grumpy = 'start python manage.py migrate'
             subprocess.call(migrate_grumpy, shell=True)
 
-        flag = input('Would you like to start App? (Y or N): ')
-
-        if (flag.upper() == 'Y'):
-            run_grumpy = 'start python manage.py runserver'
-            Grumpy_terminal_thread = Thread(target=starts_grumpy, args=(run_grumpy,))
-            Grumpy_terminal_thread.start()
 
 elif(sys.argv[1] == 'Run'):
     if (sys.platform == 'win32'):
         run_redis = 'start /wait ' + str(pathlib.Path().absolute()) + '\Redis\\redis-server.exe'
         Redis_thread = Thread(target=starts_Redis, args=(run_redis,))
         thread_management.append(Redis_thread)
-        #Redis_thread.start()
 
         MongoDB_thread = Thread(target=starts_MongoDB, args=(run_mongodb,))
         thread_management.append(MongoDB_thread)
 
-        #MongoDB_thread.start()
-
         run_celery = 'start /wait celery -A GrumPy worker -l info --without-gossip --without-mingle --without-heartbeat -Ofair --pool threads'
         Celery_thread = Thread(target=starts_celery, args=(run_celery,))
         thread_management.append(Celery_thread)
-        #Celery_thread.start()
 
         run_grumpy = 'start python manage.py runserver'
         Grumpy_terminal_thread = Thread(target=starts_grumpy, args=(run_grumpy,))
         thread_management.append(Grumpy_terminal_thread)
-        #Grumpy_terminal_thread.start()
 
         for i in thread_management:
             i.start()
